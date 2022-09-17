@@ -4,4 +4,3 @@ function main(args) {
     console.log(greeting)
     return {"body": greeting}
   }
-  

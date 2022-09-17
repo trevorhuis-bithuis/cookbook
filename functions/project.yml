@@ -1,12 +1,12 @@
 environment: {}
 parameters: {}
 packages:
-  - name: sample
+  - name: cookbook
     environment: {}
     parameters: {}
     annotations: {}
     functions:
-      - name: hello
+      - name: login
         binary: false
         main: ''
         runtime: 'nodejs:default'
@@ -15,3 +15,13 @@ packages:
         environment: {}
         annotations: {}
         limits: {}
+      - name: writeRecipe
+        binary: false
+        main: ''
+        runtime: 'nodejs:default'
+        web: true
+        parameters: {}
+        environment: {}
+        annotations: {}
+        limits: {}
+
