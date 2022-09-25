@@ -1,4 +1,5 @@
-import { Pool } from 'pg';
+import * as pg from 'pg'
+const { Pool } = pg
 
 let pool
 
