@@ -1,11 +1,10 @@
-const { Pool } = require('pg')
-
+import * as pg from 'pg';
 let pool
 
 export default async function handler(request, response) {
     if (!pool) {
         const connectionString = process.env.DATABASE_URL
-        pool = new Pool({
+        pool = new pg.Pool({
             connectionString,
             max: 1
         })
