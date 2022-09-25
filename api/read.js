@@ -1,10 +1,11 @@
-import * as pg from 'pg';
+import { Pool } from 'pg';
+
 let pool
 
 export default async function handler(request, response) {
     if (!pool) {
         const connectionString = process.env.DATABASE_URL
-        pool = new pg.Pool({
+        pool = new Pool({
             connectionString,
             max: 1
         })
