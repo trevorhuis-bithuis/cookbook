@@ -1,12 +1,12 @@
 import type { NextPage } from 'next'
 
-const Home: NextPage = () => {
+const Search: NextPage = () => {
 
     return (
         <>
-            <h1>Home</h1>
+            <h1>Search</h1>
         </>
     )
 }
 
-export default Home
+export default Search
