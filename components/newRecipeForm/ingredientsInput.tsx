@@ -1,4 +1,4 @@
-import Ingredient from "../../types/Ingredient";
+import Ingredient from "../../interfaces/Ingredient";
 
 type ingredientsInputProps = {
     ingredients: Ingredient[];
@@ -8,12 +8,10 @@ type ingredientsInputProps = {
 export default function IngredientsInput(props: ingredientsInputProps) {
     const { ingredients, setIngredients } = props;
 
-
-
     function addIngredient() {
         setIngredients([...ingredients, {
             name: '',
-            quantity: '',
+            quantity: 0,
             unit: '',
         }])
     }
@@ -30,14 +28,13 @@ export default function IngredientsInput(props: ingredientsInputProps) {
         setIngredients(newIngredients)
     }
 
-    function updateIngredientQuantity(index: number, value: string) {
+    function updateIngredientQuantity(index: number, value: number) {
         const newIngredients = [...ingredients]
         newIngredients[index].quantity = value
         setIngredients(newIngredients)
     }
 
     function removeIngredient(index: number) {
-        console.log(index);
         return () => {
             const newIngredients = [...ingredients]
             newIngredients.splice(index, 1)
@@ -52,7 +49,7 @@ export default function IngredientsInput(props: ingredientsInputProps) {
             </p>
             {ingredients.map((ingredient, index) => {
                 return (
-                    <div className="flex my-2 w-1/2 space-x-2" key={index}>
+                    <div className="flex my-2 md:w-1/2 w-full space-x-2" key={index}>
                         <div className="flex-1">
                             <div>
                                 <label htmlFor="ingredient" className="block text-sm font-medium text-gray-700">
@@ -94,17 +91,17 @@ export default function IngredientsInput(props: ingredientsInputProps) {
                                 </label>
                                 <div className="mt-1">
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="ingredient"
                                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         placeholder="1.25"
-                                        onChange={(e) => { updateIngredientQuantity(index, e.target.value) }}
+                                        onChange={(e) => { updateIngredientQuantity(index, parseFloat(e.target.value)) }}
                                         value={ingredient.quantity}
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className="flex-none content-center">
+                        <div className="flex-none content-end">
                             <button className="m-2" type="button" onClick={removeIngredient(index)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

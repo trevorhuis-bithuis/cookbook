@@ -147,7 +147,6 @@ export default function Header() {
                                 navigation.map((item) => (
                                     <Link
                                         key={item.name}
-                                        as="a"
                                         aria-current={item.current ? 'page' : undefined}
                                         className={
                                             classNames(

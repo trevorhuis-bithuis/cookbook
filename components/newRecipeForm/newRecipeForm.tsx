@@ -1,22 +1,53 @@
 import { useState } from "react"
-import Ingredient from "../../types/Ingredient"
-import InstructionsInput from "./instructionsInput"
+import Ingredient from "../../interfaces/Ingredient"
+import StepsInput from "./stepsInput"
 import IngredientsInput from "./ingredientsInput"
-import PhotosInput from "./photosInput"
+import ImagesInput from "./imagesInput"
+import { Category } from '@prisma/client'
+import { useSession } from "next-auth/react"
 
 export default function NewRecipeForm() {
     const [title, setTitle] = useState('')
+    const [category, setCategory] = useState<Category>(Category.Dinner)
     const [description, setDescription] = useState('')
-    const [photos, setPhotos] = useState<string[]>([])
+    const [images, setImages] = useState<string[]>([])
     const [ingredients, setIngredients] = useState<Ingredient[]>([{
         name: '',
-        quantity: '',
+        quantity: 0,
         unit: '',
     }])
-    const [instructions, setInstructions] = useState<string[]>(['',])
+    const [steps, setSteps] = useState<string[]>(['',])
 
-    const saveRecipe = async (e: React.FormEvent) => {
+    const { data: session } = useSession()
 
+    const categories = Object.values(Category)
+
+    const saveRecipe = async () => {
+        const postData = async () => {
+            const data = {
+                title,
+                category,
+                favorite: false,
+                steps,
+                description,
+                images,
+                ingredients,
+                authorEmail: session!.user!.email,
+            };
+
+            console.log(data)
+            const response = await fetch("/api/recipe", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            return response.json();
+        };
+        postData().then((data) => {
+            alert(data.message);
+        });
     }
 
     return (
@@ -47,6 +78,25 @@ export default function NewRecipeForm() {
                             </div>
 
                             <div className="sm:col-span-6">
+                                <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+                                    Category
+                                </label>
+                                <select
+                                    id="location"
+                                    name="location"
+                                    className="mt-1 block w-48 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    value={category}
+                                    onChange={(e) => setCategory(e.target.value as Category)}
+                                >
+                                    {categories.map((category, index) => {
+                                        return (<option key={index}>{category}</option>
+                                        )
+                                    }
+                                    )}
+                                </select>
+                            </div>
+
+                            <div className="sm:col-span-6">
                                 <label htmlFor="recipe-description" className="block text-sm font-medium text-gray-700">
                                     Description
                                 </label>
@@ -56,7 +106,6 @@ export default function NewRecipeForm() {
                                         name="recipe-description"
                                         rows={4}
                                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                        defaultValue={''}
                                         value={description}
                                         onChange={(e) => setDescription(e.target.value)}
                                     />
@@ -64,11 +113,11 @@ export default function NewRecipeForm() {
                                 <p className="mt-2 text-sm text-gray-500">Optional</p>
                             </div>
 
-                            <InstructionsInput instructions={instructions} setInstructions={setInstructions} />
+                            <StepsInput steps={steps} setSteps={setSteps} />
 
                             <IngredientsInput ingredients={ingredients} setIngredients={setIngredients} />
 
-                            <PhotosInput photos={photos} setPhotos={setPhotos} />
+                            <ImagesInput images={images} setImages={setImages} />
                         </div>
                     </div>
 
@@ -83,8 +132,10 @@ export default function NewRecipeForm() {
                             Cancel
                         </button>
                         <button
-                            type="submit"
-                            className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            type="button"
+                            onClick={saveRecipe}
+                            disabled={title === '' || description === '' || steps[0] === '' || ingredients[0].name === ''}
+                            className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 disabled:bg-gray-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
                             Save
                         </button>
