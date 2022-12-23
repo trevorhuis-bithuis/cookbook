@@ -1,16 +1,16 @@
 
-type PhotosInputProps = {
-    photos: string[];
-    setPhotos: (photos: string[]) => void;
+type ImagesInputProps = {
+    images: string[];
+    setImages: (images: string[]) => void;
 }
 
-export default function PhotosInput(props: PhotosInputProps) {
-    const { photos, setPhotos } = props;
+export default function ImagesInput(props: ImagesInputProps) {
+    const { images, setImages } = props;
 
     return (
         <div className="sm:col-span-6">
-            <label htmlFor="cover-photo" className="block text-sm font-medium text-gray-700">
-                Photos
+            <label htmlFor="cover-image" className="block text-sm font-medium text-gray-700">
+                Images
             </label>
             <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
                 <div className="space-y-1 text-center">

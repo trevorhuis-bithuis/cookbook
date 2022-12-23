@@ -10,7 +10,7 @@ export const authOptions: NextAuthOptions = {
             clientId: process.env.GOOGLE_ID,
             clientSecret: process.env.GOOGLE_SECRET,
         }),],
-    adapter: PrismaAdapter(prisma),
+    adapter: PrismaAdapter(prisma)
 }
 
 export default NextAuth(authOptions)
