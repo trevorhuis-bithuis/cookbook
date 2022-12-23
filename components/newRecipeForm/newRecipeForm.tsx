@@ -117,7 +117,7 @@ export default function NewRecipeForm() {
 
                             <IngredientsInput ingredients={ingredients} setIngredients={setIngredients} />
 
-                            <ImagesInput images={images} setImages={setImages} />
+                            {/* <ImagesInput images={images} setImages={setImages} /> */}
                         </div>
                     </div>
 
@@ -134,7 +134,7 @@ export default function NewRecipeForm() {
                         <button
                             type="button"
                             onClick={saveRecipe}
-                            disabled={title === '' || description === '' || steps[0] === '' || ingredients[0].name === ''}
+                            disabled={title === '' || description === '' || (steps.length === 0 || steps[0] === '') || (ingredients.length === 0 || ingredients[0].name === '')}
                             className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 disabled:bg-gray-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
                             Save
