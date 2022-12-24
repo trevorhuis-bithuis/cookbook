@@ -2,9 +2,9 @@ import { useState } from "react"
 import Ingredient from "../../interfaces/Ingredient"
 import StepsInput from "./stepsInput"
 import IngredientsInput from "./ingredientsInput"
-import ImagesInput from "./imagesInput"
 import { Category } from '@prisma/client'
 import { useSession } from "next-auth/react"
+import { useRouter } from "next/router"
 
 export default function NewRecipeForm() {
     const [title, setTitle] = useState('')
@@ -17,6 +17,8 @@ export default function NewRecipeForm() {
         unit: '',
     }])
     const [steps, setSteps] = useState<string[]>(['',])
+
+    const router = useRouter()
 
     const { data: session } = useSession()
 
@@ -35,7 +37,6 @@ export default function NewRecipeForm() {
                 authorEmail: session!.user!.email,
             };
 
-            console.log(data)
             const response = await fetch("/api/recipe", {
                 method: "POST",
                 body: JSON.stringify(data),
@@ -46,7 +47,7 @@ export default function NewRecipeForm() {
             return response.json();
         };
         postData().then((data) => {
-            alert(data.message);
+            router.push(`/recipe/${data.recipe.id}`);
         });
     }
 
