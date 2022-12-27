@@ -11,7 +11,6 @@ export default function RecipeGrid() {
         fetch('/api/recipes/search')
             .then((res) => res.json())
             .then((data) => {
-                console.log(data.recipes)
                 setRecipes(data.recipes)
                 setLoading(false)
             })
