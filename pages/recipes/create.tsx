@@ -1,12 +1,12 @@
 import type { NextPage } from 'next'
-import NewRecipeForm from '../../components/newRecipeForm/newRecipeForm'
+import NewRecipe from '../../components/recipeForm/newRecipe'
 
-const NewRecipe: NextPage = () => {
+const CreateRecipe: NextPage = () => {
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <NewRecipeForm />
+            <NewRecipe />
         </div>
     )
 }
 
-export default NewRecipe
+export default CreateRecipe

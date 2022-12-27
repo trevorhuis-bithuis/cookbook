@@ -1,54 +1,49 @@
-import { useState } from "react"
-import Ingredient from "../../interfaces/Ingredient"
 import StepsInput from "./stepsInput"
 import IngredientsInput from "./ingredientsInput"
 import { Category } from '@prisma/client'
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/router"
+import Ingredient from "../../interfaces/Ingredient"
 
-export default function NewRecipeForm() {
-    const [title, setTitle] = useState('')
-    const [category, setCategory] = useState<Category>(Category.Dinner)
-    const [description, setDescription] = useState('')
-    const [images, setImages] = useState<string[]>([])
-    const [ingredients, setIngredients] = useState<Ingredient[]>([{
-        name: '',
-        quantity: 0,
-        unit: '',
-    }])
-    const [steps, setSteps] = useState<string[]>(['',])
+interface recipeFormProps {
+    title: string;
+    setTitle: (title: string) => void;
+    category: Category;
+    setCategory: (category: Category) => void;
+    description: string;
+    setDescription: (description: string) => void;
+    images: string[];
+    setImages: (images: string[]) => void;
+    ingredients: Ingredient[];
+    setIngredients: (ingredients: Ingredient[]) => void;
+    steps: string[];
+    setSteps: (steps: string[]) => void;
+    saveRecipe: () => void;
+    isSending: boolean;
+}
 
-    const router = useRouter()
-
-    const { data: session } = useSession()
+export default function RecipeForm(props: recipeFormProps) {
+    const {
+        isSending,
+        title,
+        setTitle,
+        category,
+        setCategory,
+        description,
+        setDescription,
+        images,
+        setImages,
+        ingredients,
+        setIngredients,
+        steps,
+        setSteps,
+        saveRecipe
+    } = props
 
     const categories = Object.values(Category)
 
-    const saveRecipe = async () => {
-        const postData = async () => {
-            const data = {
-                title,
-                category,
-                favorite: false,
-                steps,
-                description,
-                images,
-                ingredients,
-                authorEmail: session!.user!.email,
-            };
-
-            const response = await fetch("/api/recipes", {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            return response.json();
-        };
-        postData().then((data) => {
-            router.push(`/recipes/${data.recipe.id}`);
-        });
+    if (isSending) {
+        return (
+            <div className="mt-4">Is Sending...</div>
+        )
     }
 
     return (

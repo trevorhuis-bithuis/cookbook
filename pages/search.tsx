@@ -5,7 +5,7 @@ const Search: NextPage = () => {
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <p className="text-xl mt-4">Recipes</p>
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mt-2">
+            {/* <label htmlFor="search" className="block text-sm font-medium text-gray-700 mt-2">
                 Search
             </label>
             <div className="relative w-1/2 flex items-center">
@@ -20,13 +20,13 @@ const Search: NextPage = () => {
                         Enter
                     </kbd>
                 </div>
-            </div>
+            </div> */}
 
             <div className='py-4'>
                 <RecipeGrid />
             </div>
 
-            <nav
+            {/* <nav
                 className="flex items-center justify-between border-gray-200 bg-white px-4 py-3 sm:px-6"
                 aria-label="Pagination"
             >
@@ -50,7 +50,7 @@ const Search: NextPage = () => {
                         Next
                     </a>
                 </div>
-            </nav>
+            </nav> */}
 
         </div>
     )
