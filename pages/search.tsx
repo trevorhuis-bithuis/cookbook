@@ -1,7 +1,5 @@
 import type { NextPage } from 'next'
-import RecipeGrid from '../components/recipeGrid/recipeGrid'
-import { useState } from 'react'
-import { Category } from '@prisma/client'
+import RecipeGrid from '../components/recipeGrid'
 
 const Search: NextPage = () => {
     return (

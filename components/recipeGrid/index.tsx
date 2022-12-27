@@ -8,9 +8,10 @@ export default function RecipeGrid() {
 
     useEffect(() => {
         setLoading(true)
-        fetch('/api/recipe/search')
+        fetch('/api/recipes/search')
             .then((res) => res.json())
             .then((data) => {
+                console.log(data.recipes)
                 setRecipes(data.recipes)
                 setLoading(false)
             })

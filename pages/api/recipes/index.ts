@@ -1,6 +1,6 @@
 import { Category, Ingredient } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import prisma from '../../lib/prisma'
+import prisma from '../../../lib/prisma'
 
 type Data = {
     recipe: {
