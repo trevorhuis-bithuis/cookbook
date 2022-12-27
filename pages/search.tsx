@@ -4,7 +4,7 @@ import RecipeGrid from '../components/recipeGrid'
 const Search: NextPage = () => {
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <p className="text-xl mt-4">Recipes</p>
+            <p className="text-xl mt-6">Recipes</p>
             {/* <label htmlFor="search" className="block text-sm font-medium text-gray-700 mt-2">
                 Search
             </label>
