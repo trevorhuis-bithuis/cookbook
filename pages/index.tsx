@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import Image from 'next/image'
-import xmasGif from '../public/xmas.jpeg'
 
 const Home: NextPage = () => {
 
