@@ -37,7 +37,7 @@ export default function NewRecipeForm() {
                 authorEmail: session!.user!.email,
             };
 
-            const response = await fetch("/api/recipe", {
+            const response = await fetch("/api/recipes", {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: {
@@ -47,7 +47,7 @@ export default function NewRecipeForm() {
             return response.json();
         };
         postData().then((data) => {
-            router.push(`/recipe/${data.recipe.id}`);
+            router.push(`/recipes/${data.recipe.id}`);
         });
     }
 

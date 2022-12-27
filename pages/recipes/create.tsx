@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import NewRecipeForm from '../components/newRecipeForm/newRecipeForm'
+import NewRecipeForm from '../../components/newRecipeForm/newRecipeForm'
 
 const NewRecipe: NextPage = () => {
     return (
