@@ -2,6 +2,8 @@ import type { NextPage } from 'next'
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { getAllRecipeIds, getRecipeData } from "../../lib/recipes";
+import { useState } from 'react';
+import DeleteRecipeModal from '../../components/recipeView/deleteModal';
 
 
 export async function getStaticPaths() {
@@ -23,6 +25,7 @@ export async function getStaticProps({ params }: any) {
 
 const Recipe: NextPage = ({ recipe }: any) => {
     const { data: session, status } = useSession()
+    const [openDelete, setOpenDelete] = useState(false)
 
     const router = useRouter()
     const { id } = router.query
@@ -34,14 +37,14 @@ const Recipe: NextPage = ({ recipe }: any) => {
     const userHasValidSession = Boolean(session)
     const recipeBelongsToUser = session?.user?.email === recipe.author.email
 
-    async function deleteRecipe(id: string): Promise<void> {
+    async function deleteRecipe(): Promise<void> {
         await fetch(`/api/recipes/${id}`, {
             method: "DELETE",
         });
         await router.push("/")
     }
 
-    async function editRecipe(id: string): Promise<void> {
+    async function editRecipe(): Promise<void> {
         await router.push(`/recipes/edit/${id}`)
     }
 
@@ -68,17 +71,18 @@ const Recipe: NextPage = ({ recipe }: any) => {
                 <button
                     type="button"
                     className="inline-flex items-center rounded-md border border-transparent bg-gray-400 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 m-2"
-                    onClick={() => editRecipe(recipe.id)}
+                    onClick={() => editRecipe()}
                 >
                     Edit
                 </button><button
                     type="button"
-                    className="inline-flex items-center rounded-md border border-transparent bg-rose-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 m-2"
-                    onClick={() => deleteRecipe(recipe.id)}
+                    className="inline-flex items-center rounded-md border border-transparent bg-red-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 m-2"
+                    onClick={() => setOpenDelete(true)}
                 >
                     Delete
                 </button>
             </div>}
+            <DeleteRecipeModal open={openDelete} setOpen={setOpenDelete} onDelete={deleteRecipe} />
 
         </div >
     );
