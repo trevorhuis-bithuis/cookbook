@@ -53,16 +53,16 @@ export default function IngredientsInput(props: ingredientsInputProps) {
                         <div className="flex-1">
                             <div>
                                 <label htmlFor="ingredient" className="block text-sm font-medium text-gray-700">
-                                    Ingredient
+                                    Quantity
                                 </label>
                                 <div className="mt-1">
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="ingredient"
                                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                        placeholder="Butter"
-                                        onChange={(e) => { updateIngredientName(index, e.target.value) }}
-                                        value={ingredient.name}
+                                        placeholder="1.25"
+                                        onChange={(e) => { updateIngredientQuantity(index, parseFloat(e.target.value)) }}
+                                        value={ingredient.quantity}
                                     />
                                 </div>
                             </div>
@@ -87,16 +87,16 @@ export default function IngredientsInput(props: ingredientsInputProps) {
                         <div className="flex-1">
                             <div>
                                 <label htmlFor="ingredient" className="block text-sm font-medium text-gray-700">
-                                    Quantity
+                                    Ingredient
                                 </label>
                                 <div className="mt-1">
                                     <input
-                                        type="number"
+                                        type="text"
                                         name="ingredient"
                                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                        placeholder="1.25"
-                                        onChange={(e) => { updateIngredientQuantity(index, parseFloat(e.target.value)) }}
-                                        value={ingredient.quantity}
+                                        placeholder="Butter"
+                                        onChange={(e) => { updateIngredientName(index, e.target.value) }}
+                                        value={ingredient.name}
                                     />
                                 </div>
                             </div>
