@@ -1,21 +1,41 @@
 import type { NextPage } from 'next'
-import RecipeGrid from '../components/recipeGrid'
+import RecipeGrid from '../../components/recipeGrid'
+import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { Recipe } from '@prisma/client'
 
-const Search: NextPage = () => {
+const YourRecipes: NextPage = () => {
     const [isLoading, setLoading] = useState(false)
     const [recipes, setRecipes] = useState<Recipe[]>()
 
+    let userEmail: string | undefined | null
+
+    const { data: session, status } = useSession()
+    if (status === "authenticated" && session) {
+        userEmail = session!.user!.email
+    }
+
+
     useEffect(() => {
+        if (!userEmail) return
         setLoading(true)
-        fetch(`/api/recipes/search`)
+        fetch(`/api/recipes/search/${userEmail}`)
             .then((res) => res.json())
             .then((data) => {
                 setRecipes(data.recipes)
                 setLoading(false)
             })
-    }, [])
+    }, [userEmail])
+
+    if (status === "loading") {
+        return <p>Loading...</p>
+    }
+
+    if (status === "unauthenticated") {
+        return <p>Access Denied</p>
+    }
+
 
 
     if (isLoading) return <p>Loading...</p>
@@ -75,4 +95,4 @@ const Search: NextPage = () => {
     )
 }
 
-export default Search
+export default YourRecipes

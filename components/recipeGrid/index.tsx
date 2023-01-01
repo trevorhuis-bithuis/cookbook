@@ -1,23 +1,13 @@
 import { Recipe } from "@prisma/client"
 import RecipeBox from "./recipeBox"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
-export default function RecipeGrid() {
-    const [recipes, setRecipes] = useState<Recipe[] | null>(null)
-    const [isLoading, setLoading] = useState(false)
+interface RecipeGridProps {
+    recipes: Recipe[]
+}
 
-    useEffect(() => {
-        setLoading(true)
-        fetch('/api/recipes/search')
-            .then((res) => res.json())
-            .then((data) => {
-                setRecipes(data.recipes)
-                setLoading(false)
-            })
-    }, [])
-
-    if (isLoading) return <p>Loading...</p>
-    if (!recipes) return <p>No profile data</p>
+export default function RecipeGrid(props: RecipeGridProps) {
+    const { recipes } = props
 
     return (
         <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-4">
