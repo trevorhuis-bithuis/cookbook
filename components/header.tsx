@@ -17,9 +17,10 @@ export default function Header() {
 
     const navigation = [
         { name: 'Search', href: '/search', current: router.pathname.includes('/search') ? true : false },
-        { name: 'New Recipe', href: '/recipes/create', current: router.pathname.includes('/recipes/create') ? true : false },
-        { name: 'Blog', href: '/blog', current: router.pathname.includes('/blog') ? true : false }
+        { name: 'Blog', href: '/blog', current: router.pathname.includes('/blog') ? true : false },
     ]
+
+    if (session?.user) navigation.push({ name: 'New Recipe', href: '/recipes/create', current: router.pathname.includes('/recipes/create') ? true : false })
 
     return (
         <Disclosure as="nav" className="bg-gray-800" >
