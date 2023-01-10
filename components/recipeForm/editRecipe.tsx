@@ -46,20 +46,7 @@ export default function EditRecipe() {
             return response.json();
         };
 
-        const revalidateRecipePage = async () => {
-            const response = await fetch(`/api/recipes/revalidate/${id}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            return response.json();
-        };
-
         postData().then((data) => {
-            revalidateRecipePage();
-            return data;
-        }).then((data) => {
             router.push(`/recipes/${data.recipe.id}`);
         });
     }
