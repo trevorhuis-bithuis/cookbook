@@ -33,7 +33,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             await prisma.ingredient.deleteMany({ where: { recipeId: id } })
             const recipeIngredients = ingredients.map((ingredient: Ingredient) => ({ ...ingredient, recipeId: recipe.id }))
             const recipeIngredientsCreated = await prisma.ingredient.createMany({ data: recipeIngredients })
-            res.revalidate(`/recipes/${id}`)
             res.status(200).json({
                 recipe: {
                     ...recipe,
