@@ -41,7 +41,7 @@ const Recipe: NextPage = ({ recipe }: any) => {
         await fetch(`/api/recipes/${id}`, {
             method: "DELETE",
         });
-        await router.push("/")
+        router.back()
     }
 
     async function editRecipe(): Promise<void> {
