@@ -64,7 +64,7 @@ model Recipe {
   steps       String[]
   ingredients Ingredient[]
   images      String[]
-  author      User         @relation(fields: [authorId], references: [id])
+  author      User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId    String
 }
 
@@ -81,6 +81,6 @@ model Ingredient {
   name     String @db.String(255)
   unit     String @db.String(255)
   quantity Float
-  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   recipeId String
 }

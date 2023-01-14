@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { getAllRecipeIds, getRecipeData } from "../../lib/recipes";
 import { useState } from 'react';
 import DeleteRecipeModal from '../../components/recipeView/deleteModal';
-
+import dayjs from 'dayjs';
 
 export async function getStaticPaths() {
     const paths = await getAllRecipeIds()
@@ -48,11 +48,14 @@ const Recipe: NextPage = ({ recipe }: any) => {
         await router.push(`/recipes/edit/${id}`)
     }
 
+    const dateCreated = dayjs(recipe.createdAt).format('MMMM D, YYYY')
+
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-2">
             <p className="text-4xl font-bold text-gray-900 p-1">
                 {recipe.title}
             </p>
+            <p className="text-md text-gray-500 mt-2">Recipe by {recipe.author.name} | Published on {dateCreated}</p>
             <p className="text-2xl text-gray-500 mt-2">Description</p>
             <p className="text-gray-900">{recipe.description}</p>
             <p className="text-2xl text-gray-500 mt-2">Ingredients</p>
