@@ -18,6 +18,7 @@ export default function Header() {
     const navigation = [
         { name: 'Search', href: '/search', current: router.pathname.includes('/search') ? true : false },
         { name: 'Blog', href: '/blog', current: router.pathname.includes('/blog') ? true : false },
+        { name: 'Menu', href: '/menu', current: router.pathname.includes('/menu') ? true : false },
     ]
 
     if (session?.user) navigation.push({ name: 'New Recipe', href: '/recipes/create', current: router.pathname.includes('/recipes/create') ? true : false })
