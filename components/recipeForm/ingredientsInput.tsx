@@ -1,4 +1,5 @@
 import Ingredient from "../../interfaces/Ingredient";
+import { splitIngredientInputString } from "../../lib/ingredients";
 
 type ingredientsInputProps = {
     ingredients: Ingredient[];
@@ -13,24 +14,18 @@ export default function IngredientsInput(props: ingredientsInputProps) {
             name: '',
             quantity: 0,
             unit: '',
+            isValid: false
         }])
     }
 
-    function updateIngredientName(index: number, value: string) {
+    function updateIngredient(index: number, ingredientString: string) {
         const newIngredients = [...ingredients]
-        newIngredients[index].name = value
-        setIngredients(newIngredients)
-    }
-
-    function updateIngredientUnit(index: number, value: string) {
-        const newIngredients = [...ingredients]
-        newIngredients[index].unit = value
-        setIngredients(newIngredients)
-    }
-
-    function updateIngredientQuantity(index: number, value: number) {
-        const newIngredients = [...ingredients]
-        newIngredients[index].quantity = value
+        try {
+            const ingredientValues = splitIngredientInputString(ingredientString);
+            newIngredients[index] = ingredientValues;
+        } catch (error) {
+            newIngredients[index].isValid = false;
+        }
         setIngredients(newIngredients)
     }
 
@@ -61,7 +56,7 @@ export default function IngredientsInput(props: ingredientsInputProps) {
                                         name="ingredient"
                                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         placeholder="1/4 cup butter"
-                                        onChange={(e) => { updateIngredientName(index, e.target.value) }}
+                                        onChange={(e) => { updateIngredient(index, e.target.value) }}
                                         value={ingredient.name}
                                     />
                                 </div>

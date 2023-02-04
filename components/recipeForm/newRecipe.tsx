@@ -3,7 +3,6 @@ import Ingredient from "../../interfaces/Ingredient"
 import RecipeForm from "./recipeForm"
 import { Category } from '@prisma/client'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
 
 export default function NewRecipe() {
     const router = useRouter()
@@ -17,6 +16,7 @@ export default function NewRecipe() {
         name: '',
         quantity: 0,
         unit: '',
+        isValid: true
     }])
     const [steps, setSteps] = useState<string[]>(['',])
     const [isSending, setIsSending] = useState(false)

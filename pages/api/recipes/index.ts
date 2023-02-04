@@ -4,15 +4,13 @@ import prisma from '../../../lib/prisma'
 
 type Data = {
     recipe: {
-        id: string;
-        title: any;
-        category: any;
-        favorite: any;
-        steps: any;
-        authorId: any;
-        description: any;
-        ingredients: any;
-        images: any;
+        id: number;
+        title: string;
+        category: string;
+        steps: string[];
+        authorId: number;
+        description: string;
+        ingredients: string[];
     }
 }
 
