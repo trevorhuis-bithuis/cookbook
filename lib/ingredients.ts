@@ -1,15 +1,16 @@
-
-export function splitIngredientInputString(splitIngredientInputString: string): any {
+export function splitIngredientInputString(
+    splitIngredientInputString: string
+): any {
     try {
-        const ingredientArray = splitIngredientInputString.split(" ");
+        const ingredientArray = splitIngredientInputString.split(' ')
         const ingredient = {
             quantity: ingredientQuantityToNumber(ingredientArray[0]),
             unit: ingredientArray[1],
             name: ingredientArray[2],
-        };
-        return ingredient;
+        }
+        return ingredient
     } catch (error) {
-        throw new Error("Not a valid ingredient input");
+        throw new Error('Not a valid ingredient input')
     }
 }
 

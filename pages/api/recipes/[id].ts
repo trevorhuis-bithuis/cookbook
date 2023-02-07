@@ -1,51 +1,43 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import Ingredient from "../../../interfaces/Ingredient"
-import { getSession } from 'next-auth/react';
-import prisma from '../../../lib/prisma'
+import { createClient } from '../../../lib/supabase-server'
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-    const id = req.query.id as string;
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+    const id = req.query.id as string
 
-    const session = await getSession({ req })
-    if (req.method === "DELETE") {
-        if (session) {
-            const recipe = await prisma.recipe.delete({
-                where: { id },
-            });
-            res.json(recipe);
-        } else {
-            res.status(401).send({ message: 'Unauthorized' })
+    const supabase = createClient()
+
+    if (req.method === 'DELETE') {
+        const { data, error } = await supabase.from('recipes').delete().match({ id: id });
+        if (error) {
+            res.status(500).json({ error })
+            return
         }
-    } else if (req.method === "GET") {
-        if (session) {
-            const recipe = await prisma.recipe.findUnique({ where: { id }, include: { ingredients: true, author: true } });
-            res.json(recipe);
-        } else {
-            res.status(401).send({ message: 'Unauthorized' })
+        res.status(200).json({ data })
+    } else if (req.method === 'GET') {
+        const { data, error } = await supabase.from('recipes').select('*').match({ id: id });
+        if (error) {
+            res.status(500).json({ error })
+            return
         }
-    } else if (req.method === "PUT") {
-        if (session) {
-            const { ingredients } = req.body
-            const recipe = await prisma.recipe.update({
-                where: { id },
-                data: { title: req.body.title, category: req.body.category, steps: req.body.steps, description: req.body.description },
-            });
-            await prisma.ingredient.deleteMany({ where: { recipeId: id } })
-            const recipeIngredients = ingredients.map((ingredient: Ingredient) => ({ ...ingredient, recipeId: recipe.id }))
-            const recipeIngredientsCreated = await prisma.ingredient.createMany({ data: recipeIngredients })
-            await res.revalidate(`/recipes/${id}`)
-            res.status(200).json({
-                recipe: {
-                    ...recipe,
-                    ingredients: recipeIngredientsCreated
-                }
-            })
-        } else {
-            res.status(401).send({ message: 'Unauthorized' })
+        res.status(200).json({ data })
+    } else if (req.method === 'PUT') {
+        const { data, error } = await supabase.from('recipes').update({
+            title: req.body.title,
+            category: req.body.category,
+            steps: req.body.steps,
+            ingredients: req.body.ingredients,
+            description: req.body.description,
+        }).match({ id: id });
+        if (error) {
+            res.status(500).json({ error })
+            return
         }
+        res.status(200).json({ data })
     } else {
         throw new Error(
             `The HTTP ${req.method} method is not supported at this route.`
-        );
+        )
     }
 }
+
+export default handler

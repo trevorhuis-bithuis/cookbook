@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react"
-import Ingredient from "../../interfaces/Ingredient"
-import RecipeForm from "./recipeForm"
-import { Category } from '@prisma/client'
+import { useState, useEffect } from 'react'
+import Ingredient from '../../interfaces/Ingredient'
+import RecipeForm from './recipeForm'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
 
 export default function EditRecipe() {
     const router = useRouter()
@@ -15,12 +13,14 @@ export default function EditRecipe() {
     const [category, setCategory] = useState<Category>(Category.Dinner)
     const [description, setDescription] = useState('')
     const [images, setImages] = useState<string[]>([])
-    const [ingredients, setIngredients] = useState<Ingredient[]>([{
-        name: '',
-        quantity: 0,
-        unit: '',
-    }])
-    const [steps, setSteps] = useState<string[]>(['',])
+    const [ingredients, setIngredients] = useState<Ingredient[]>([
+        {
+            name: '',
+            quantity: 0,
+            unit: '',
+        },
+    ])
+    const [steps, setSteps] = useState<string[]>([''])
     const [isSending, setIsSending] = useState(false)
 
     const editRecipe = async () => {
@@ -33,22 +33,22 @@ export default function EditRecipe() {
                 steps,
                 description,
                 images,
-                ingredients
-            };
+                ingredients,
+            }
 
             const response = await fetch(`/api/recipes/${id}`, {
-                method: "PUT",
+                method: 'PUT',
                 body: JSON.stringify(data),
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
-            });
-            return response.json();
-        };
+            })
+            return response.json()
+        }
 
         postData().then((data) => {
-            router.push(`/recipes/${data.recipe.id}`);
-        });
+            router.push(`/recipes/${data.recipe.id}`)
+        })
     }
 
     useEffect(() => {
@@ -85,6 +85,5 @@ export default function EditRecipe() {
             saveRecipe={editRecipe}
             isSending={isSending}
         />
-
     )
 }

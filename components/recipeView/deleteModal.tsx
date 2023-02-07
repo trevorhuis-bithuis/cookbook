@@ -3,14 +3,12 @@ import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 interface DeleteRecipeModalProps {
-    open: boolean;
-    setOpen: Dispatch<SetStateAction<boolean>>;
-    onDelete: () => void;
+    open: boolean
+    setOpen: Dispatch<SetStateAction<boolean>>
+    onDelete: () => void
 }
 
-
 export default function DeleteRecipeModal(props: DeleteRecipeModalProps) {
-
     const { open, setOpen, onDelete } = props
 
     const cancelButtonRef = useRef(null)
@@ -22,7 +20,12 @@ export default function DeleteRecipeModal(props: DeleteRecipeModalProps) {
 
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+            <Dialog
+                as="div"
+                className="relative z-10"
+                initialFocus={cancelButtonRef}
+                onClose={setOpen}
+            >
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -49,16 +52,25 @@ export default function DeleteRecipeModal(props: DeleteRecipeModalProps) {
                             <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                                 <div className="sm:flex sm:items-start">
                                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                                        <ExclamationTriangleIcon
+                                            className="h-6 w-6 text-red-600"
+                                            aria-hidden="true"
+                                        />
                                     </div>
                                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                        <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                                        <Dialog.Title
+                                            as="h3"
+                                            className="text-lg font-medium leading-6 text-gray-900"
+                                        >
                                             Delete Recipe
                                         </Dialog.Title>
                                         <div className="mt-2">
                                             <p className="text-sm text-gray-500">
-                                                Are you sure you want to delete this recipe? All of your data will be permanently removed
-                                                from our servers forever. This action cannot be undone.
+                                                Are you sure you want to delete
+                                                this recipe? All of your data
+                                                will be permanently removed from
+                                                our servers forever. This action
+                                                cannot be undone.
                                             </p>
                                         </div>
                                     </div>

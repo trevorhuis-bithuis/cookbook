@@ -1,27 +1,33 @@
-import prisma from './prisma'
+import { createClient } from './supabase-server'
 
 export async function getAllRecipeIds() {
-    const recipeIds = await prisma.recipe.findMany({
-        select: {
-            id: true
-        }
-    })
+    const supabase = createClient()
+    const { data: recipeIds, error } = await supabase
+        .from('recipes')
+        .select('id')
+    if (error) {
+        console.error(error)
+        return []
+    }
     const recipeIdObjs = recipeIds.map((recipeId) => {
         return {
             params: {
-                id: recipeId.id.toString()
-            }
+                id: recipeId.id.toString(),
+            },
         }
     })
-    return recipeIdObjs;
+    return recipeIdObjs
 }
 
 export async function getRecipeData(id: string) {
-    const recipe = await prisma.recipe.findUnique({
-        where: {
-            id
-        },
-        include: { ingredients: true, author: true }
-    })
+    const supabase = createClient()
+    const { data: recipe, error } = await supabase
+        .from('recipes')
+        .select('*')
+        .eq('id', id)
+    if (error) {
+        console.error(error)
+        return null
+    }
     return JSON.parse(JSON.stringify(recipe))
 }

@@ -1,21 +1,18 @@
 import type { NextPage } from 'next'
 import RecipeGrid from '../../components/recipeGrid'
-import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
-import { Recipe } from '@prisma/client'
+import { useSession } from '@supabase/auth-helpers-react'
 
 const YourRecipes: NextPage = () => {
     const [isLoading, setLoading] = useState(false)
-    const [recipes, setRecipes] = useState<Recipe[]>()
+    const [recipes, setRecipes] = useState([])
 
     let userEmail: string | undefined | null
 
-    const { data: session, status } = useSession()
-    if (status === "authenticated" && session) {
+    const session = useSession()
+    if (session) {
         userEmail = session!.user!.email
     }
-
 
     useEffect(() => {
         if (!userEmail) return
@@ -28,15 +25,13 @@ const YourRecipes: NextPage = () => {
             })
     }, [userEmail])
 
-    if (status === "loading") {
+    if (status === 'loading') {
         return <p>Loading...</p>
     }
 
-    if (status === "unauthenticated") {
+    if (status === 'unauthenticated') {
         return <p>Access Denied</p>
     }
-
-
 
     if (isLoading) return <p>Loading...</p>
     if (!recipes) return <p>No recipe data</p>
@@ -61,7 +56,7 @@ const YourRecipes: NextPage = () => {
                 </div>
             </div> */}
 
-            <div className='py-4'>
+            <div className="py-4">
                 <RecipeGrid recipes={recipes} />
             </div>
 
@@ -90,7 +85,6 @@ const YourRecipes: NextPage = () => {
                     </a>
                 </div>
             </nav> */}
-
         </div>
     )
 }
