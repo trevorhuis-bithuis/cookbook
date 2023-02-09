@@ -1,25 +1,17 @@
 import { useState, useEffect } from 'react'
-import Ingredient from '../../interfaces/Ingredient'
 import RecipeForm from './recipeForm'
 import { useRouter } from 'next/router'
 
 export default function EditRecipe() {
     const router = useRouter()
-    const { data: session } = useSession()
     const { id } = router.query
 
     const [isLoading, setLoading] = useState(false)
     const [title, setTitle] = useState('')
-    const [category, setCategory] = useState<Category>(Category.Dinner)
+    const [categories, setCategories] = useState<string[]>([''])
     const [description, setDescription] = useState('')
     const [images, setImages] = useState<string[]>([])
-    const [ingredients, setIngredients] = useState<Ingredient[]>([
-        {
-            name: '',
-            quantity: 0,
-            unit: '',
-        },
-    ])
+    const [ingredients, setIngredients] = useState<string[]>([''])
     const [steps, setSteps] = useState<string[]>([''])
     const [isSending, setIsSending] = useState(false)
 
@@ -28,7 +20,7 @@ export default function EditRecipe() {
         const postData = async () => {
             const data = {
                 title,
-                category,
+                categories,
                 favorite: false,
                 steps,
                 description,
@@ -57,7 +49,7 @@ export default function EditRecipe() {
             .then((res) => res.json())
             .then((data) => {
                 setTitle(data.title)
-                setCategory(data.category)
+                setCategories(data.categories)
                 setDescription(data.description)
                 setImages(data.images)
                 setIngredients(data.ingredients)
@@ -72,8 +64,8 @@ export default function EditRecipe() {
         <RecipeForm
             title={title}
             setTitle={setTitle}
-            category={category}
-            setCategory={setCategory}
+            categories={categories}
+            setCategories={setCategories}
             description={description}
             setDescription={setDescription}
             images={images}

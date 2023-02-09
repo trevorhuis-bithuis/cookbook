@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Ingredient from '../../interfaces/Ingredient'
 import RecipeForm from './recipeForm'
 import { useRouter } from 'next/router'
 import { useSession } from '@supabase/auth-helpers-react'
@@ -8,17 +7,15 @@ export default function NewRecipe() {
     const router = useRouter()
     const session = useSession()
 
+    if (!session) {
+        router.push('/auth')
+    }
+
     const [title, setTitle] = useState('')
+    const [categories, setCategories] = useState<string[]>([])
     const [description, setDescription] = useState('')
     const [images, setImages] = useState<string[]>([])
-    const [ingredients, setIngredients] = useState<Ingredient[]>([
-        {
-            name: '',
-            quantity: 0,
-            unit: '',
-            isValid: true,
-        },
-    ])
+    const [ingredients, setIngredients] = useState<string[]>([''])
     const [steps, setSteps] = useState<string[]>([''])
     const [isSending, setIsSending] = useState(false)
 
@@ -27,12 +24,10 @@ export default function NewRecipe() {
         const postData = async () => {
             const data = {
                 title,
-                favorite: false,
                 steps,
                 description,
-                images,
-                ingredients,
-                authorEmail: session!.user!.email,
+                categories,
+                ingredients
             }
 
             const response = await fetch('/api/recipes', {
@@ -45,8 +40,12 @@ export default function NewRecipe() {
             return response.json()
         }
         postData().then((data) => {
+            console.log(data)
             router.push(`/recipes/${data.recipe.id}`)
-        })
+        }).catch((error) => {
+            console.log(error)
+            router.push('/recipes/create')
+        });
     }
 
     return (
@@ -55,6 +54,8 @@ export default function NewRecipe() {
             setTitle={setTitle}
             description={description}
             setDescription={setDescription}
+            categories={categories}
+            setCategories={setCategories}
             images={images}
             setImages={setImages}
             ingredients={ingredients}

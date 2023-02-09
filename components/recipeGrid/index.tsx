@@ -2,7 +2,7 @@ import RecipeBox from './recipeBox'
 import { useState } from 'react'
 
 interface RecipeGridProps {
-    recipes: Recipe[]
+    recipes: any[]
 }
 
 export default function RecipeGrid(props: RecipeGridProps) {

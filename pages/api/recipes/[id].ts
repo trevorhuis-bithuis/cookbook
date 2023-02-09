@@ -1,10 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createClient } from '../../../lib/supabase-server'
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
+
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const id = req.query.id as string
 
-    const supabase = createClient()
+    const supabase = createServerSupabaseClient({ req, res })
 
     if (req.method === 'DELETE') {
         const { data, error } = await supabase.from('recipes').delete().match({ id: id });

@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createClient } from '../../../../lib/supabase-server'
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    const supabase = createClient()
+    const supabase = createServerSupabaseClient({ req, res })
     const { data, error } = await supabase.from('recipes').select('*');
     if (error) {
         res.status(500).json({ error })

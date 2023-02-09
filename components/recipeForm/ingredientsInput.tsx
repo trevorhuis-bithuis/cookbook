@@ -1,35 +1,20 @@
-import Ingredient from '../../interfaces/Ingredient'
-import { splitIngredientInputString } from '../../lib/ingredients'
-
 type ingredientsInputProps = {
-    ingredients: Ingredient[]
-    setIngredients: (ingredients: Ingredient[]) => void
+    ingredients: string[]
+    setIngredients: (ingredients: string[]) => void
 }
 
 export default function IngredientsInput(props: ingredientsInputProps) {
     const { ingredients, setIngredients } = props
 
     function addIngredient() {
-        setIngredients([
-            ...ingredients,
-            {
-                name: '',
-                quantity: 0,
-                unit: '',
-                isValid: false,
-            },
-        ])
+        const newIngredients = [...ingredients]
+        newIngredients.push('');
+        setIngredients(newIngredients);
     }
 
-    function updateIngredient(index: number, ingredientString: string) {
+    function updateIngredient(index: number, ingredient: string) {
         const newIngredients = [...ingredients]
-        try {
-            const ingredientValues =
-                splitIngredientInputString(ingredientString)
-            newIngredients[index] = ingredientValues
-        } catch (error) {
-            newIngredients[index].isValid = false
-        }
+        newIngredients[index] = ingredient
         setIngredients(newIngredients)
     }
 
@@ -72,7 +57,7 @@ export default function IngredientsInput(props: ingredientsInputProps) {
                                                 e.target.value
                                             )
                                         }}
-                                        value={ingredient.name}
+                                        value={ingredient}
                                     />
                                 </div>
                             </div>
@@ -102,7 +87,7 @@ export default function IngredientsInput(props: ingredientsInputProps) {
                     </div>
                 )
             })}
-            <button className="m-2" type="button" onClick={addIngredient}>
+            {/* <button className="m-2" type="button" onClick={addIngredient}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -117,6 +102,13 @@ export default function IngredientsInput(props: ingredientsInputProps) {
                         d="M12 4.5v15m7.5-7.5h-15"
                     />
                 </svg>
+            </button> */}
+            <button
+                type="button"
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={addIngredient}
+            >
+                Add
             </button>
         </div>
     )

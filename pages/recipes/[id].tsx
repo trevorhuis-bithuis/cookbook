@@ -27,11 +27,13 @@ const Recipe: NextPage = ({ recipe }: any) => {
     const session = useSession()
     const [openDelete, setOpenDelete] = useState(false)
 
+    console.log(recipe)
+
     const router = useRouter()
     const { id } = router.query
 
     const userHasValidSession = Boolean(session)
-    const recipeBelongsToUser = session?.user?.email === recipe.author.email
+    const recipeBelongsToUser = session?.user?.id === recipe.author_id
 
     async function deleteRecipe(): Promise<void> {
         await fetch(`/api/recipes/${id}`, {
@@ -52,16 +54,15 @@ const Recipe: NextPage = ({ recipe }: any) => {
                 {recipe.title}
             </p>
             <p className="text-md text-gray-500 mt-2">
-                Recipe by {recipe.author.name} | Published on {dateCreated}
+                Recipe by {recipe.profiles.full_name} | Published on {dateCreated}
             </p>
             <p className="text-2xl text-gray-500 mt-2">Description</p>
             <p className="text-gray-900">{recipe.description}</p>
             <p className="text-2xl text-gray-500 mt-2">Ingredients</p>
             <ul className="list-disc list-inside">
-                {recipe.ingredients.map((ingredient: any, index: number) => (
+                {recipe.ingredients.map((ingredient: string, index: number) => (
                     <li key={index} className="text-gray-900 p-1">
-                        {ingredient.quantity} {ingredient.unit}{' '}
-                        {ingredient.name}
+                        {ingredient}
                     </li>
                 ))}
             </ul>

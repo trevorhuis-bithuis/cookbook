@@ -7,31 +7,23 @@ const YourRecipes: NextPage = () => {
     const [isLoading, setLoading] = useState(false)
     const [recipes, setRecipes] = useState([])
 
-    let userEmail: string | undefined | null
+    let userId: string | undefined | null
 
     const session = useSession()
     if (session) {
-        userEmail = session!.user!.email
+        userId = session!.user!.id
     }
 
     useEffect(() => {
-        if (!userEmail) return
+        if (!userId) return
         setLoading(true)
-        fetch(`/api/recipes/search/${userEmail}`)
+        fetch(`/api/recipes/search/${userId}`)
             .then((res) => res.json())
             .then((data) => {
                 setRecipes(data.recipes)
                 setLoading(false)
             })
-    }, [userEmail])
-
-    if (status === 'loading') {
-        return <p>Loading...</p>
-    }
-
-    if (status === 'unauthenticated') {
-        return <p>Access Denied</p>
-    }
+    }, [userId])
 
     if (isLoading) return <p>Loading...</p>
     if (!recipes) return <p>No recipe data</p>
