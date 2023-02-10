@@ -54,7 +54,8 @@ const Recipe: NextPage = ({ recipe }: any) => {
                 {recipe.title}
             </p>
             <p className="text-md text-gray-500 mt-2">
-                Recipe by {recipe.profiles.full_name} | Published on {dateCreated}
+                Recipe by {recipe.profiles.full_name} | Published on{' '}
+                {dateCreated}
             </p>
             <p className="text-2xl text-gray-500 mt-2">Description</p>
             <p className="text-gray-900">{recipe.description}</p>

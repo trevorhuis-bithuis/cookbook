@@ -6,7 +6,7 @@ export default function EditRecipe() {
     const router = useRouter()
     const { id } = router.query
 
-    const [isLoading, setLoading] = useState(false)
+    const [isLoading, setLoading] = useState(true)
     const [title, setTitle] = useState('')
     const [categories, setCategories] = useState<string[]>([''])
     const [description, setDescription] = useState('')
@@ -21,10 +21,8 @@ export default function EditRecipe() {
             const data = {
                 title,
                 categories,
-                favorite: false,
                 steps,
                 description,
-                images,
                 ingredients,
             }
 
@@ -38,12 +36,11 @@ export default function EditRecipe() {
             return response.json()
         }
 
-        postData().then((data) => {
-            router.push(`/recipes/${data.recipe.id}`)
-        })
+        postData().then(() => router.push(`/recipes/${id}`))
     }
 
     useEffect(() => {
+        if (!id) return
         setLoading(true)
         fetch(`/api/recipes/${id}`)
             .then((res) => res.json())
@@ -51,7 +48,6 @@ export default function EditRecipe() {
                 setTitle(data.title)
                 setCategories(data.categories)
                 setDescription(data.description)
-                setImages(data.images)
                 setIngredients(data.ingredients)
                 setSteps(data.steps)
                 setLoading(false)

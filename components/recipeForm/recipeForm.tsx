@@ -75,7 +75,6 @@ export default function RecipeForm(props: recipeFormProps) {
                                 </div>
                             </div>
 
-
                             <CategoriesInput
                                 categories={categories}
                                 setCategories={setCategories}

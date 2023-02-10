@@ -27,7 +27,8 @@ export default function NewRecipe() {
                 steps,
                 description,
                 categories,
-                ingredients
+                ingredients,
+                author_id: session!.user.id,
             }
 
             const response = await fetch('/api/recipes', {
@@ -39,13 +40,15 @@ export default function NewRecipe() {
             })
             return response.json()
         }
-        postData().then((data) => {
-            console.log(data)
-            router.push(`/recipes/${data.recipe.id}`)
-        }).catch((error) => {
-            console.log(error)
-            router.push('/recipes/create')
-        });
+        postData()
+            .then((data) => {
+                console.log(data)
+                router.push(`/recipes/${data.recipe.id}`)
+            })
+            .catch((error) => {
+                console.log(error)
+                router.push('/recipes/create')
+            })
     }
 
     return (

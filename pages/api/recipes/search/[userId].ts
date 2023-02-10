@@ -1,23 +1,28 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const userId = req.query.userId as string
+    console.log(userId)
 
     const supabase = createServerSupabaseClient({ req, res })
 
     const {
-        data: { session }
-    } = await supabase.auth.getSession();
+        data: { session },
+    } = await supabase.auth.getSession()
 
     if (!session)
         return res.status(401).json({
             error: 'not_authenticated',
             description:
-                'The user does not have an active session or is not authenticated'
-        });
+                'The user does not have an active session or is not authenticated',
+        })
 
-    const { data, error } = await supabase.from('recipes').select('*').eq('author_id', userId)
+    const { data, error } = await supabase
+        .from('recipes')
+        .select('*')
+        .eq('author_id', userId)
+    console.log(data)
     if (error) {
         res.status(500).json({ error })
         return

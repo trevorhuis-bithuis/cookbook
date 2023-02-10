@@ -8,8 +8,8 @@ export default function IngredientsInput(props: ingredientsInputProps) {
 
     function addIngredient() {
         const newIngredients = [...ingredients]
-        newIngredients.push('');
-        setIngredients(newIngredients);
+        newIngredients.push('')
+        setIngredients(newIngredients)
     }
 
     function updateIngredient(index: number, ingredient: string) {

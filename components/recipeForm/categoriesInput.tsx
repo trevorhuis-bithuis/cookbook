@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 type categoriesInputProps = {
     categories: string[]
@@ -30,9 +30,7 @@ export default function CategoriesInput(props: categoriesInputProps) {
                 name="category"
                 className="w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 onChange={(e) => {
-                    setCategory(
-                        e.target.value
-                    )
+                    setCategory(e.target.value)
                 }}
                 value={category}
             />
@@ -49,16 +47,15 @@ export default function CategoriesInput(props: categoriesInputProps) {
             <div>
                 <ul role="list" className="flex flex-wrap m-2">
                     {categories.map((category, index) => (
-                        <li key={index} className="flex-initial mr-4 mt-4 p-2 shadow-sm rounded-lg bg-indigo-100 text-md font-medium text-indigo-800 text-center">
+                        <li
+                            key={index}
+                            className="flex-initial mr-4 mt-4 p-2 shadow-sm rounded-lg bg-indigo-100 text-md font-medium text-indigo-800 text-center"
+                        >
                             {category}
                         </li>
                     ))}
                 </ul>
             </div>
-
         </div>
-
-
     )
 }
-

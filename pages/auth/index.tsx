@@ -6,13 +6,14 @@ const Login: NextPage = () => {
     const supabase = useSupabaseClient()
 
     return (
-        <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-            <h1 className='text-2xl text-center mt-2'>{`Crystal's Cookbook`}</h1>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h1 className="text-2xl text-center mt-2">{`Crystal's Cookbook`}</h1>
             <Auth
                 supabaseClient={supabase}
                 appearance={{ theme: ThemeSupa }}
                 providers={['google']}
-            /></div>
+            />
+        </div>
     )
 }
 

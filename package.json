@@ -1,39 +1,39 @@
 {
-  "name": "cookbook",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "format": "prettier --write ."
-  },
-  "dependencies": {
-    "@headlessui/react": "^1.7.7",
-    "@heroicons/react": "^2.0.13",
-    "@supabase/auth-helpers-nextjs": "^0.5.4",
-    "@supabase/auth-helpers-react": "^0.3.1",
-    "@supabase/auth-ui-react": "^0.2.6",
-    "@supabase/supabase-js": "^2.7.0",
-    "dayjs": "^1.11.7",
-    "next": "13.1.1",
-    "react": "18.2.0",
-    "server-only": "^0.0.1"
-  },
-  "devDependencies": {
-    "@tailwindcss/forms": "^0.5.3",
-    "@types/next-auth": "3.13.0",
-    "@types/node": "18.11.17",
-    "@types/react": "18.0.26",
-    "autoprefixer": "^10.4.13",
-    "eslint": "^8.30.0",
-    "eslint-config-next": "^13.1.1",
-    "postcss": "^8.4.20",
-    "prettier": "2.8.3",
-    "supabase": "^1.36.6",
-    "tailwindcss": "^3.2.4",
-    "ts-node": "10.9.1",
-    "typescript": "4.9.4"
-  }
+    "name": "cookbook",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "format": "prettier --write ."
+    },
+    "dependencies": {
+        "@headlessui/react": "^1.7.7",
+        "@heroicons/react": "^2.0.13",
+        "@supabase/auth-helpers-nextjs": "^0.5.4",
+        "@supabase/auth-helpers-react": "^0.3.1",
+        "@supabase/auth-ui-react": "^0.2.6",
+        "@supabase/supabase-js": "^2.7.0",
+        "dayjs": "^1.11.7",
+        "next": "13.1.1",
+        "react": "18.2.0",
+        "server-only": "^0.0.1"
+    },
+    "devDependencies": {
+        "@tailwindcss/forms": "^0.5.3",
+        "@types/next-auth": "3.13.0",
+        "@types/node": "18.11.17",
+        "@types/react": "18.0.26",
+        "autoprefixer": "^10.4.13",
+        "eslint": "^8.30.0",
+        "eslint-config-next": "^13.1.1",
+        "postcss": "^8.4.20",
+        "prettier": "2.8.3",
+        "supabase": "^1.36.6",
+        "tailwindcss": "^3.2.4",
+        "ts-node": "10.9.1",
+        "typescript": "4.9.4"
+    }
 }

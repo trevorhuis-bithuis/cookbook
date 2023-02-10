@@ -21,10 +21,12 @@ export async function getAllRecipeIds() {
 export async function getRecipeData(id: string) {
     const { data: recipe, error } = await supabase
         .from('recipes')
-        .select('id, description, title, category, steps, ingredients, author_id, updated_at, profiles (full_name)')
+        .select(
+            'id, description, title, categories, steps, ingredients, author_id, updated_at, profiles (full_name)'
+        )
         .eq('id', id)
         .single()
-    console.log(recipe);
+    console.log(recipe)
     if (error) {
         console.error(error)
         return null

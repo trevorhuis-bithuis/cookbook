@@ -6,23 +6,23 @@ import Layout from '../components/layout'
 import type { AppProps } from 'next/app'
 
 function MyApp({
-  Component,
-  pageProps,
+    Component,
+    pageProps,
 }: AppProps<{
-  initialSession: Session
+    initialSession: Session
 }>) {
-  // Create a new supabase browser client on every first render.
-  const [supabaseClient] = useState(() => createBrowserSupabaseClient())
-  return (
-    <SessionContextProvider
-      supabaseClient={supabaseClient}
-      initialSession={pageProps.initialSession}
-    >
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </SessionContextProvider>
-  )
+    // Create a new supabase browser client on every first render.
+    const [supabaseClient] = useState(() => createBrowserSupabaseClient())
+    return (
+        <SessionContextProvider
+            supabaseClient={supabaseClient}
+            initialSession={pageProps.initialSession}
+        >
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
+        </SessionContextProvider>
+    )
 }
 
 export default MyApp

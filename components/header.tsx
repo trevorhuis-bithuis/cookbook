@@ -149,8 +149,13 @@ export default function Header() {
                                                     {({ active }) => (
                                                         <button
                                                             onClick={async () => {
-                                                                const { error } = await supabase.auth.signOut()
-                                                                console.log(error)
+                                                                const {
+                                                                    error,
+                                                                } =
+                                                                    await supabase.auth.signOut()
+                                                                console.log(
+                                                                    error
+                                                                )
                                                             }}
                                                             className={classNames(
                                                                 active
