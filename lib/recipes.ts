@@ -26,7 +26,6 @@ export async function getRecipeData(id: string) {
         )
         .eq('id', id)
         .single()
-    console.log(recipe)
     if (error) {
         console.error(error)
         return null

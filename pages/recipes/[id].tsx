@@ -27,8 +27,6 @@ const Recipe: NextPage = ({ recipe }: any) => {
     const session = useSession()
     const [openDelete, setOpenDelete] = useState(false)
 
-    console.log(recipe)
-
     const router = useRouter()
     const { id } = router.query
 

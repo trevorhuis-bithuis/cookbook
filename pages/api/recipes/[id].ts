@@ -32,16 +32,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             .from('recipes')
             .update({
                 title: req.body.title,
-                category: req.body.category,
+                categories: req.body.categories,
                 steps: req.body.steps,
                 ingredients: req.body.ingredients,
                 description: req.body.description,
             })
-            .match({ id: id })
+            .eq('id', id)
+            .select()
         if (error) {
             res.status(500).json({ error })
             return
         }
+        console.log(data)
         res.status(200).json({ data })
     } else {
         throw new Error(

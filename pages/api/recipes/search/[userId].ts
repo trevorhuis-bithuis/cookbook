@@ -3,7 +3,6 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const userId = req.query.userId as string
-    console.log(userId)
 
     const supabase = createServerSupabaseClient({ req, res })
 
@@ -22,7 +21,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         .from('recipes')
         .select('*')
         .eq('author_id', userId)
-    console.log(data)
     if (error) {
         res.status(500).json({ error })
         return

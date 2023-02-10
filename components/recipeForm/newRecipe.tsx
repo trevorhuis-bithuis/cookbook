@@ -42,7 +42,6 @@ export default function NewRecipe() {
         }
         postData()
             .then((data) => {
-                console.log(data)
                 router.push(`/recipes/${data.recipe.id}`)
             })
             .catch((error) => {

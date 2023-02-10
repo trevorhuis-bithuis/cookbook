@@ -147,7 +147,8 @@ export default function Header() {
                                                 </Menu.Item>
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <button
+                                                        <Link
+                                                            href="/"
                                                             onClick={async () => {
                                                                 const {
                                                                     error,
@@ -165,7 +166,7 @@ export default function Header() {
                                                             )}
                                                         >
                                                             Sign out
-                                                        </button>
+                                                        </Link>
                                                     )}
                                                 </Menu.Item>
                                             </Menu.Items>

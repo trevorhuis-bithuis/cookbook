@@ -4,8 +4,6 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const supabase = createServerSupabaseClient({ req, res })
 
-    console.log(req.body)
-
     if (req.method === 'POST') {
         const { data, error } = await supabase.from('recipes').insert({
             title: req.body.title,
@@ -15,7 +13,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             categories: req.body.categories,
             author_id: req.body.author_id,
         })
-        console.log(data)
         if (error) {
             res.status(500).json({ error })
             return
