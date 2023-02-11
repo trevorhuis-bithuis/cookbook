@@ -10,8 +10,8 @@ interface recipeFormProps {
     setDescription: (description: string) => void
     categories: string[]
     setCategories: (categories: string[]) => void
-    imageFiles: any[]
-    setImageFiles: (images: any[]) => void
+    image: string
+    setImage: (image: string) => void
     ingredients: string[]
     setIngredients: (ingredients: string[]) => void
     steps: string[]
@@ -29,8 +29,8 @@ export default function RecipeForm(props: recipeFormProps) {
         setDescription,
         categories,
         setCategories,
-        imageFiles,
-        setImageFiles,
+        image,
+        setImage,
         ingredients,
         setIngredients,
         steps,
@@ -112,7 +112,7 @@ export default function RecipeForm(props: recipeFormProps) {
                                 setIngredients={setIngredients}
                             />
 
-                            <ImagesInput imageFiles={imageFiles} setImageFiles={setImageFiles} />
+                            <ImagesInput image={image} setImage={setImage} />
                         </div>
                     </div>
                 </div>

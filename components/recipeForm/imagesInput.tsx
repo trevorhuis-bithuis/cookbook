@@ -1,15 +1,26 @@
+import { v4 as uuidv4 } from 'uuid';
+
 type ImagesInputProps = {
-    imageFiles: any[]
-    setImageFiles: (images: any[]) => void
+    image: string
+    setImage: (image: string) => void
 }
 
 export default function ImagesInput(props: ImagesInputProps) {
-    const { imageFiles, setImageFiles } = props
+    const { image, setImage } = props
 
     function addImage(e: React.ChangeEvent<HTMLInputElement>) {
         if (!e.target.files) return
         const files = Array.from(e.target.files)
-        setImageFiles([...imageFiles, ...files])
+        const file = files[files.length - 1]
+        let fileName = `${uuidv4()}.${file.type.split('/')[1]}`
+        const { data, error } = await supabase.storage
+            .from('recipe-photos')
+            .image(`public/${fileName}`, file);
+        if (error) {
+            console.log(error)
+        }
+        imageUrls.push(fileName)
+        setImage([...image, ...files])
     }
 
     return (

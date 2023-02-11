@@ -64,7 +64,7 @@ export default function EditRecipe() {
             setCategories={setCategories}
             description={description}
             setDescription={setDescription}
-            images={images}
+            image={image}
             setImages={setImages}
             ingredients={ingredients}
             setIngredients={setIngredients}

@@ -2,7 +2,6 @@ import { useState } from 'react'
 import RecipeForm from './recipeForm'
 import { useRouter } from 'next/router'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
-import { v4 as uuidv4 } from 'uuid';
 
 export default function NewRecipe() {
     const router = useRouter()
@@ -16,7 +15,7 @@ export default function NewRecipe() {
     const [title, setTitle] = useState('')
     const [categories, setCategories] = useState<string[]>([])
     const [description, setDescription] = useState('')
-    const [imageFiles, setImageFiles] = useState<any[]>([])
+    const [image, setImage] = useState<any[]>([])
     const [ingredients, setIngredients] = useState<string[]>([''])
     const [steps, setSteps] = useState<string[]>([''])
     const [isSending, setIsSending] = useState(false)
@@ -45,7 +44,7 @@ export default function NewRecipe() {
 
         const uploadImages = async () => {
             const imageUrls = [];
-            for (const file of imageFiles) {
+            for (const file of image) {
                 // let fileName = `${uuidv4()}.${file.type.split('/')[1]}`
                 // const { data, error } = await supabase.storage
                 //     .from('recipe-photos')
@@ -92,8 +91,8 @@ export default function NewRecipe() {
             setDescription={setDescription}
             categories={categories}
             setCategories={setCategories}
-            imageFiles={imageFiles}
-            setImageFiles={setImageFiles}
+            image={image}
+            setImage={setImage}
             ingredients={ingredients}
             setIngredients={setIngredients}
             steps={steps}
