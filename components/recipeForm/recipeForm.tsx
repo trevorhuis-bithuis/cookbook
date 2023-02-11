@@ -1,6 +1,7 @@
 import StepsInput from './stepsInput'
 import IngredientsInput from './ingredientsInput'
 import CategoriesInput from './categoriesInput'
+import ImagesInput from './imagesInput'
 
 interface recipeFormProps {
     title: string
@@ -9,8 +10,8 @@ interface recipeFormProps {
     setDescription: (description: string) => void
     categories: string[]
     setCategories: (categories: string[]) => void
-    images: string[]
-    setImages: (images: string[]) => void
+    imageFiles: any[]
+    setImageFiles: (images: any[]) => void
     ingredients: string[]
     setIngredients: (ingredients: string[]) => void
     steps: string[]
@@ -28,8 +29,8 @@ export default function RecipeForm(props: recipeFormProps) {
         setDescription,
         categories,
         setCategories,
-        images,
-        setImages,
+        imageFiles,
+        setImageFiles,
         ingredients,
         setIngredients,
         steps,
@@ -111,7 +112,7 @@ export default function RecipeForm(props: recipeFormProps) {
                                 setIngredients={setIngredients}
                             />
 
-                            {/* <ImagesInput images={images} setImages={setImages} /> */}
+                            <ImagesInput imageFiles={imageFiles} setImageFiles={setImageFiles} />
                         </div>
                     </div>
                 </div>

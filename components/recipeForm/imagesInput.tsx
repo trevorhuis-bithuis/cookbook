@@ -1,10 +1,16 @@
 type ImagesInputProps = {
-    images: string[]
-    setImages: (images: string[]) => void
+    imageFiles: any[]
+    setImageFiles: (images: any[]) => void
 }
 
 export default function ImagesInput(props: ImagesInputProps) {
-    const { images, setImages } = props
+    const { imageFiles, setImageFiles } = props
+
+    function addImage(e: React.ChangeEvent<HTMLInputElement>) {
+        if (!e.target.files) return
+        const files = Array.from(e.target.files)
+        setImageFiles([...imageFiles, ...files])
+    }
 
     return (
         <div className="sm:col-span-6">
@@ -41,6 +47,8 @@ export default function ImagesInput(props: ImagesInputProps) {
                                 name="file-upload"
                                 type="file"
                                 className="sr-only"
+                                accept=".jpg, .jpeg, .png"
+                                onInput={addImage}
                             />
                         </label>
                         <p className="pl-1">or drag and drop</p>
