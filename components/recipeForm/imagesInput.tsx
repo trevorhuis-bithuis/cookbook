@@ -1,26 +1,28 @@
-import { v4 as uuidv4 } from 'uuid';
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { v4 as uuidv4 } from 'uuid'
 
 type ImagesInputProps = {
-    image: string
-    setImage: (image: string) => void
+    imageUrl: string
+    setImageUrl: (image: string) => void
 }
 
 export default function ImagesInput(props: ImagesInputProps) {
-    const { image, setImage } = props
+    const supabase = useSupabaseClient()
 
-    function addImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const { imageUrl, setImageUrl } = props
+
+    async function addImage(e: React.ChangeEvent<HTMLInputElement>) {
         if (!e.target.files) return
         const files = Array.from(e.target.files)
         const file = files[files.length - 1]
         let fileName = `${uuidv4()}.${file.type.split('/')[1]}`
-        const { data, error } = await supabase.storage
+        const { error } = await supabase.storage
             .from('recipe-photos')
-            .image(`public/${fileName}`, file);
+            .upload(`public/${fileName}`, file)
         if (error) {
             console.log(error)
         }
-        imageUrls.push(fileName)
-        setImage([...image, ...files])
+        setImageUrl(fileName)
     }
 
     return (

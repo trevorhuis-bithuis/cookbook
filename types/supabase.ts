@@ -46,6 +46,7 @@ export interface Database {
                     steps: string[] | null
                     title: string
                     updated_at: string | null
+                    image_url: string | null
                 }
                 Insert: {
                     author_id?: string | null
@@ -57,6 +58,7 @@ export interface Database {
                     steps?: string[] | null
                     title: string
                     updated_at?: string | null
+                    image_url: string | null
                 }
                 Update: {
                     author_id?: string | null
@@ -68,6 +70,7 @@ export interface Database {
                     steps?: string[] | null
                     title?: string
                     updated_at?: string | null
+                    image_url: string | null
                 }
             }
         }

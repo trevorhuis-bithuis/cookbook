@@ -8,13 +8,14 @@ type categoriesInputProps = {
 export default function CategoriesInput(props: categoriesInputProps) {
     const { categories, setCategories } = props
 
-    const [category, setCategory] = useState('')
+    const [categoryInput, setCategoryInput] = useState('')
 
     const addCategory = (category: string) => {
         if (category === '') {
             return
         }
         setCategories([...categories, category])
+        setCategoryInput('')
     }
 
     return (
@@ -30,15 +31,15 @@ export default function CategoriesInput(props: categoriesInputProps) {
                 name="category"
                 className="w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 onChange={(e) => {
-                    setCategory(e.target.value)
+                    setCategoryInput(e.target.value)
                 }}
-                value={category}
+                value={categoryInput}
             />
             <button
                 type="button"
                 className="inline-flex items-center mx-2 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={() => {
-                    addCategory(category)
+                    addCategory(categoryInput)
                 }}
             >
                 Add

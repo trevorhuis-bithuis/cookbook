@@ -11,7 +11,6 @@ const Search: NextPage = () => {
         fetch(`/api/recipes/search`)
             .then((res) => res.json())
             .then((data) => {
-                console.log(data)
                 setRecipes(data.recipes)
                 setLoading(false)
             })

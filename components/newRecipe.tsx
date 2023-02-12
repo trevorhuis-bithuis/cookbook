@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import RecipeForm from './recipeForm'
+import RecipeForm from './recipeForm/recipeForm'
 import { useRouter } from 'next/router'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
@@ -15,7 +15,7 @@ export default function NewRecipe() {
     const [title, setTitle] = useState('')
     const [categories, setCategories] = useState<string[]>([])
     const [description, setDescription] = useState('')
-    const [image, setImage] = useState<any[]>([])
+    const [imageUrl, setImageUrl] = useState<string>('')
     const [ingredients, setIngredients] = useState<string[]>([''])
     const [steps, setSteps] = useState<string[]>([''])
     const [isSending, setIsSending] = useState(false)
@@ -29,6 +29,7 @@ export default function NewRecipe() {
                 description,
                 categories,
                 ingredients,
+                imageUrl,
                 author_id: session!.user.id,
             }
 
@@ -42,45 +43,17 @@ export default function NewRecipe() {
             return response.json()
         }
 
-        const uploadImages = async () => {
-            const imageUrls = [];
-            for (const file of image) {
-                // let fileName = `${uuidv4()}.${file.type.split('/')[1]}`
-                // const { data, error } = await supabase.storage
-                //     .from('recipe-photos')
-                //     .upload(`public/${fileName}`, file);
-                // if (error) {
-                //     console.log(error)
-                // }
-                // imageUrls.push(fileName)
-                console.log(file);
-            }
-            return imageUrls
-        }
-
-        const addImagesToRecipe = async (recipeId: string, imageUrls: string[]) => {
-            const { data, error } = await supabase
-                .from('recipes')
-                .update({ images: imageUrls })
-                .eq('id', recipeId)
-            if (error) {
-                console.log(error)
-            }
-        }
-
-
         try {
-            const recipe = await postData();
-            console.log(recipe);
-            const recipeUrls = await uploadImages();
-            console.log(recipeUrls);
-            await addImagesToRecipe(recipe.id, recipeUrls);
+            const recipe = await postData()
         } catch (error) {
             console.log(error)
+            // Delete the image from storage if failed
+            if (imageUrl || imageUrl !== '') {
+                await supabase.storage.from('recipe-photos').remove([imageUrl])
+            }
         } finally {
             router.push('/search')
         }
-
     }
 
     return (
@@ -91,8 +64,8 @@ export default function NewRecipe() {
             setDescription={setDescription}
             categories={categories}
             setCategories={setCategories}
-            image={image}
-            setImage={setImage}
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
             ingredients={ingredients}
             setIngredients={setIngredients}
             steps={steps}

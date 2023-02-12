@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { getAllRecipeIds, getRecipeData } from '../../lib/recipes'
-import { useState } from 'react'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import DeleteRecipeModal from '../../components/recipeView/deleteModal'
 import dayjs from 'dayjs'
 import { useSession } from '@supabase/auth-helpers-react'
@@ -55,6 +56,16 @@ const Recipe: NextPage = ({ recipe }: any) => {
                 Recipe by {recipe.profiles.full_name} | Published on{' '}
                 {dateCreated}
             </p>
+            {recipe.imageUrl && recipe.imageUrl !== '' && (
+                <div className="mx-auto max-w-4xl m-4">
+                    <Image
+                        src={recipe.imageUrl}
+                        alt={recipe.title}
+                        height={300}
+                        width={300}
+                    />
+                </div>
+            )}
             <p className="text-2xl text-gray-500 mt-2">Description</p>
             <p className="text-gray-900">{recipe.description}</p>
             <p className="text-2xl text-gray-500 mt-2">Ingredients</p>

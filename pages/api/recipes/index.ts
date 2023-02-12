@@ -12,6 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             description: req.body.description,
             categories: req.body.categories,
             author_id: req.body.author_id,
+            image_url: req.body.imageUrl,
         })
         if (error) {
             res.status(500).json({ error })
