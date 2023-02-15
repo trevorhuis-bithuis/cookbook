@@ -1,43 +1,49 @@
-import { Category, Ingredient } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import prisma from '../../../lib/prisma'
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
-type Data = {
-    recipe: {
-        id: string;
-        title: any;
-        category: any;
-        favorite: any;
-        steps: any;
-        authorId: any;
-        description: any;
-        ingredients: any;
-        images: any;
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+    const supabase = createServerSupabaseClient({ req, res })
+
+    if (req.method === 'POST') {
+        const { data: recipe, error: recipeError } = await supabase
+            .from('recipes')
+            .insert({
+                title: req.body.title,
+                steps: req.body.steps,
+                ingredients: req.body.ingredients,
+                description: req.body.description,
+                author_id: req.body.author_id,
+                image_url: req.body.imageUrl,
+            })
+            .select().single();
+
+        if (recipeError || !recipe) {
+            res.status(500).json({ recipeError })
+            return
+        }
+
+        const { data: categories, error: categoriesError } = await supabase
+            .from('recipe_categories')
+            .insert(
+                req.body.categories.map((category: string) => {
+                    return {
+                        recipe_id: recipe.id,
+                        name: category,
+                    }
+                })
+            ).select()
+
+        if (categoriesError) {
+            res.status(500).json({ categoriesError })
+            return
+        }
+
+        res.status(200).json({ recipe, categories })
+    } else {
+        throw new Error(
+            `The HTTP ${req.method} method is not supported at this route.`
+        )
     }
 }
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-    const { title, category, favorite, steps, authorEmail, description, ingredients, images } = req.body
-    const recipe = await prisma.recipe.create(
-        {
-            data: {
-                title: title,
-                category: category,
-                favorite: favorite,
-                steps: steps,
-                author: { connect: { email: authorEmail } },
-                description: description,
-                images: images
-            }
-        })
-    const recipeIngredients = ingredients.map((ingredient: Ingredient) => ({ ...ingredient, recipeId: recipe.id }))
-    const recipeIngredientsCreated = await prisma.ingredient.createMany({ data: recipeIngredients })
-    res.status(200).json({
-        recipe: {
-            ...recipe,
-            ingredients: recipeIngredientsCreated
-        }
-    })
-}
-
-export default handler;
+export default handler

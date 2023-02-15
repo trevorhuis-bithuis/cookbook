@@ -1,26 +1,18 @@
-import { useState, useEffect } from "react"
-import Ingredient from "../../interfaces/Ingredient"
-import RecipeForm from "./recipeForm"
-import { Category } from '@prisma/client'
+import { useState, useEffect } from 'react'
+import RecipeForm from './recipeForm/recipeForm'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
 
 export default function EditRecipe() {
     const router = useRouter()
-    const { data: session } = useSession()
     const { id } = router.query
 
-    const [isLoading, setLoading] = useState(false)
+    const [isLoading, setLoading] = useState(true)
     const [title, setTitle] = useState('')
-    const [category, setCategory] = useState<Category>(Category.Dinner)
+    const [categories, setCategories] = useState<string[]>([''])
     const [description, setDescription] = useState('')
-    const [images, setImages] = useState<string[]>([])
-    const [ingredients, setIngredients] = useState<Ingredient[]>([{
-        name: '',
-        quantity: 0,
-        unit: '',
-    }])
-    const [steps, setSteps] = useState<string[]>(['',])
+    const [imageUrl, setImageUrl] = useState<string>('')
+    const [ingredients, setIngredients] = useState<string[]>([''])
+    const [steps, setSteps] = useState<string[]>([''])
     const [isSending, setIsSending] = useState(false)
 
     const editRecipe = async () => {
@@ -28,40 +20,44 @@ export default function EditRecipe() {
         const postData = async () => {
             const data = {
                 title,
-                category,
-                favorite: false,
+                categories,
                 steps,
                 description,
-                images,
-                ingredients
-            };
+                ingredients,
+                imageUrl,
+            }
 
             const response = await fetch(`/api/recipes/${id}`, {
-                method: "PUT",
+                method: 'PUT',
                 body: JSON.stringify(data),
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
-            });
-            return response.json();
-        };
+            })
+            return response.json()
+        }
 
-        postData().then((data) => {
-            router.push(`/recipes/${data.recipe.id}`);
-        });
+        try {
+            await postData()
+        } catch (error) {
+            console.log(error)
+        } finally {
+            router.push(`/recipes/${id}`)
+        }
     }
 
     useEffect(() => {
+        if (!id) return
         setLoading(true)
         fetch(`/api/recipes/${id}`)
             .then((res) => res.json())
             .then((data) => {
                 setTitle(data.title)
-                setCategory(data.category)
+                setCategories(data.categories)
                 setDescription(data.description)
-                setImages(data.images)
                 setIngredients(data.ingredients)
                 setSteps(data.steps)
+                setImageUrl(data.imageUrl)
                 setLoading(false)
             })
     }, [id])
@@ -72,19 +68,19 @@ export default function EditRecipe() {
         <RecipeForm
             title={title}
             setTitle={setTitle}
-            category={category}
-            setCategory={setCategory}
+            categories={categories}
+            setCategories={setCategories}
             description={description}
             setDescription={setDescription}
-            images={images}
-            setImages={setImages}
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
             ingredients={ingredients}
             setIngredients={setIngredients}
             steps={steps}
             setSteps={setSteps}
             saveRecipe={editRecipe}
             isSending={isSending}
+            isEdit={true}
         />
-
     )
 }

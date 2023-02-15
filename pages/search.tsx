@@ -1,11 +1,10 @@
 import type { NextPage } from 'next'
 import RecipeGrid from '../components/recipeGrid'
 import { useEffect, useState } from 'react'
-import { Recipe } from '@prisma/client'
 
 const Search: NextPage = () => {
     const [isLoading, setLoading] = useState(false)
-    const [recipes, setRecipes] = useState<Recipe[]>()
+    const [recipes, setRecipes] = useState([])
 
     useEffect(() => {
         setLoading(true)
@@ -16,7 +15,6 @@ const Search: NextPage = () => {
                 setLoading(false)
             })
     }, [])
-
 
     if (isLoading) return <p>Loading...</p>
     if (!recipes) return <p>No recipe data</p>
@@ -41,7 +39,7 @@ const Search: NextPage = () => {
                 </div>
             </div> */}
 
-            <div className='py-4'>
+            <div className="py-4">
                 <RecipeGrid recipes={recipes} />
             </div>
 
@@ -70,7 +68,6 @@ const Search: NextPage = () => {
                     </a>
                 </div>
             </nav> */}
-
         </div>
     )
 }

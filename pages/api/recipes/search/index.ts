@@ -1,9 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import prisma from '../../../../lib/prisma'
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    const recipes = await prisma.recipe.findMany()
-    res.status(200).json({ recipes })
+    const supabase = createServerSupabaseClient({ req, res })
+    const { data, error } = await supabase.from('recipes').select('*')
+    if (error) {
+        res.status(500).json({ error })
+        return
+    }
+    res.status(200).json({ recipes: data })
 }
 
-export default handler;
+export default handler

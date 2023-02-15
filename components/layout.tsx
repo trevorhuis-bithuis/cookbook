@@ -1,14 +1,10 @@
-import Header from "./header"
-import Footer from "./footer"
-import type { ReactNode } from "react"
-import { useSession } from "next-auth/react"
+import Header from './header'
+import Footer from './footer'
+import type { ReactNode } from 'react'
+import { useSession } from '@supabase/auth-helpers-react'
 
 export default function Layout({ children }: { children: ReactNode }) {
-    const { status } = useSession()
-
-    if (status === 'loading') {
-        return <div></div>
-    }
+    const session = useSession()
 
     return (
         <>
