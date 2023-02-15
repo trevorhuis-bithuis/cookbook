@@ -18,6 +18,7 @@ interface recipeFormProps {
     setSteps: (steps: string[]) => void
     saveRecipe: () => void
     isSending: boolean
+    isEdit: boolean
 }
 
 export default function RecipeForm(props: recipeFormProps) {

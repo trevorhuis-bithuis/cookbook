@@ -24,6 +24,7 @@ export default function EditRecipe() {
                 steps,
                 description,
                 ingredients,
+                imageUrl,
             }
 
             const response = await fetch(`/api/recipes/${id}`, {
@@ -36,7 +37,13 @@ export default function EditRecipe() {
             return response.json()
         }
 
-        postData().then(() => router.push(`/recipes/${id}`))
+        try {
+            await postData()
+        } catch (error) {
+            console.log(error)
+        } finally {
+            router.push(`/recipes/${id}`)
+        }
     }
 
     useEffect(() => {
@@ -73,6 +80,7 @@ export default function EditRecipe() {
             setSteps={setSteps}
             saveRecipe={editRecipe}
             isSending={isSending}
+            isEdit={true}
         />
     )
 }

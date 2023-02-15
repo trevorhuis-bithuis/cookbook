@@ -56,13 +56,25 @@ const Recipe: NextPage = ({ recipe }: any) => {
                 Recipe by {recipe.profiles.full_name} | Published on{' '}
                 {dateCreated}
             </p>
+            {recipe.categories.length > 0 && (
+                <div className="flex flex-wrap">
+                    {recipe.categories.map((category: any, index: number) => (
+                        <div
+                            key={index}
+                            className="flex-initial mr-4 mt-4 p-2 shadow-sm rounded-lg bg-indigo-100 text-md font-medium text-indigo-800 text-center"
+                        >
+                            {category.name}
+                        </div>
+                    ))}
+                </div>
+            )}
             {recipe.imageUrl && recipe.imageUrl !== '' && (
                 <div className="mx-auto max-w-4xl m-4">
                     <Image
                         src={recipe.imageUrl}
                         alt={recipe.title}
-                        height={300}
-                        width={300}
+                        height={150}
+                        width={150}
                     />
                 </div>
             )}

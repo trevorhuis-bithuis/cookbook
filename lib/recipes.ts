@@ -33,12 +33,13 @@ export async function getRecipeData(id: string) {
     const { data: recipe, error } = await supabase
         .from('recipes')
         .select(
-            'id, description, title, categories, steps, ingredients, author_id, updated_at, image_url, profiles (full_name)'
+            'id, description, title, steps, ingredients, author_id, updated_at, image_url, profiles(full_name), categories:recipe_categories(name)'
         )
         .eq('id', id)
         .single()
+
     let imageUrl: string | undefined = ''
-    if (recipe!.image_url || recipe!.image_url === '') {
+    if (recipe!.image_url && recipe!.image_url === '') {
         imageUrl = await getPublicUrl(recipe!.image_url)
     }
     if (error) {

@@ -28,14 +28,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         }
         res.status(200).json(data)
     } else if (req.method === 'PUT') {
+        const categories: string[] = req.body.categories;
+
         const { data, error } = await supabase
             .from('recipes')
             .update({
                 title: req.body.title,
-                categories: req.body.categories,
                 steps: req.body.steps,
                 ingredients: req.body.ingredients,
                 description: req.body.description,
+                image_url: req.body.imageUrl,
             })
             .eq('id', id)
             .select()
@@ -43,7 +45,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(500).json({ error })
             return
         }
-        res.status(200).json({ data })
+
+        const { data: categoriesData, error: categoriesError } = await supabase
+            .from('recipe_categories')
+            .delete()
+            .match({ recipe_id: id })
+        if (categoriesError) {
+            res.status(500).json({ categoriesError })
+            return
+        }
+
+        const { data: newCategoriesData, error: newCategoriesError } = await supabase
+            .from('recipe_categories')
+            .insert(
+                categories.map((category: string) => {
+                    return {
+                        recipe_id: id,
+                        name: category,
+                    }
+                })
+            )
+        if (newCategoriesError) {
+            res.status(500).json({ newCategoriesError })
+            return
+        }
+
+        res.status(200).json({ data, categories: newCategoriesData })
     } else {
         throw new Error(
             `The HTTP ${req.method} method is not supported at this route.`

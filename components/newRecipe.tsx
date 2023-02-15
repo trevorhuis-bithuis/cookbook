@@ -72,6 +72,7 @@ export default function NewRecipe() {
             setSteps={setSteps}
             saveRecipe={createRecipe}
             isSending={isSending}
+            isEdit={false}
         />
     )
 }
