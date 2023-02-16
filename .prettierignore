@@ -1,0 +1,5 @@
+# Ignore artifacts:
+.next
+
+# Ignore all HTML files:
+*.html

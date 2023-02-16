@@ -1,15 +1,36 @@
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { v4 as uuidv4 } from 'uuid'
 
 type ImagesInputProps = {
-    images: string[];
-    setImages: (images: string[]) => void;
+    imageUrl: string
+    setImageUrl: (image: string) => void
 }
 
 export default function ImagesInput(props: ImagesInputProps) {
-    const { images, setImages } = props;
+    const supabase = useSupabaseClient()
+
+    const { imageUrl, setImageUrl } = props
+
+    async function addImage(e: React.ChangeEvent<HTMLInputElement>) {
+        if (!e.target.files) return
+        const files = Array.from(e.target.files)
+        const file = files[files.length - 1]
+        let fileName = `${uuidv4()}.${file.type.split('/')[1]}`
+        const { error } = await supabase.storage
+            .from('recipe-photos')
+            .upload(`public/${fileName}`, file)
+        if (error) {
+            console.log(error)
+        }
+        setImageUrl(fileName)
+    }
 
     return (
         <div className="sm:col-span-6">
-            <label htmlFor="cover-image" className="block text-sm font-medium text-gray-700">
+            <label
+                htmlFor="cover-image"
+                className="block text-sm font-medium text-gray-700"
+            >
                 Images
             </label>
             <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
@@ -34,11 +55,20 @@ export default function ImagesInput(props: ImagesInputProps) {
                             className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
                         >
                             <span>Upload a file</span>
-                            <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                            <input
+                                id="file-upload"
+                                name="file-upload"
+                                type="file"
+                                className="sr-only"
+                                accept=".jpg, .jpeg, .png"
+                                onInput={addImage}
+                            />
                         </label>
                         <p className="pl-1">or drag and drop</p>
                     </div>
-                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                    <p className="text-xs text-gray-500">
+                        PNG, JPG, GIF up to 10MB
+                    </p>
                 </div>
             </div>
         </div>

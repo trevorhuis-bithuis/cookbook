@@ -1,18 +1,31 @@
-import Header from "./header"
-import Footer from "./footer"
-import type { ReactNode } from "react"
-import { useSession } from "next-auth/react"
+import Header from './header'
+import Footer from './footer'
+import { ReactNode, useState } from 'react'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 export default function Layout({ children }: { children: ReactNode }) {
-    const { status } = useSession()
+    const supabase = useSupabaseClient()
+    const session = useSession()
 
-    if (status === 'loading') {
-        return <div></div>
+    const [isOwner, setIsOwner] = useState(false)
+
+    const user = session?.user
+
+    if (user) {
+        supabase
+            .from('profiles')
+            .select('is_owner')
+            .eq('id', user.id)
+            .single()
+            .then((res) => {
+                setIsOwner(res.data!.is_owner)
+            })
     }
+
 
     return (
         <>
-            <Header />
+            <Header isOwner={isOwner} />
             <main> {children} </main>
             <Footer />
         </>

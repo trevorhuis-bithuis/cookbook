@@ -1,16 +1,17 @@
 import type { NextPage } from 'next'
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
-import { getAllRecipeIds, getRecipeData } from "../../lib/recipes";
-import { useState } from 'react';
-import DeleteRecipeModal from '../../components/recipeView/deleteModal';
-import dayjs from 'dayjs';
+import { useRouter } from 'next/router'
+import { getAllRecipeIds, getRecipeData } from '../../lib/recipes'
+import Image from 'next/image'
+import { useState } from 'react'
+import DeleteRecipeModal from '../../components/recipeView/deleteModal'
+import dayjs from 'dayjs'
+import { useSession } from '@supabase/auth-helpers-react'
 
 export async function getStaticPaths() {
     const paths = await getAllRecipeIds()
     return {
         paths,
-        fallback: 'blocking'
+        fallback: 'blocking',
     }
 }
 
@@ -18,29 +19,25 @@ export async function getStaticProps({ params }: any) {
     const recipe = await getRecipeData(params.id)
     return {
         props: {
-            recipe
-        }
+            recipe,
+        },
     }
 }
 
 const Recipe: NextPage = ({ recipe }: any) => {
-    const { data: session, status } = useSession()
+    const session = useSession()
     const [openDelete, setOpenDelete] = useState(false)
 
     const router = useRouter()
     const { id } = router.query
 
-
-    if (status === 'loading') {
-        return <div>Authenticating ...</div>
-    }
     const userHasValidSession = Boolean(session)
-    const recipeBelongsToUser = session?.user?.email === recipe.author.email
+    const recipeBelongsToUser = session?.user?.id === recipe.author_id
 
     async function deleteRecipe(): Promise<void> {
         await fetch(`/api/recipes/${id}`, {
-            method: "DELETE",
-        });
+            method: 'DELETE',
+        })
         router.back()
     }
 
@@ -55,40 +52,75 @@ const Recipe: NextPage = ({ recipe }: any) => {
             <p className="text-4xl font-bold text-gray-900 p-1">
                 {recipe.title}
             </p>
-            <p className="text-md text-gray-500 mt-2">Recipe by {recipe.author.name} | Published on {dateCreated}</p>
+            <p className="text-md text-gray-500 mt-2">
+                Recipe by {recipe.profiles.full_name} | Published on{' '}
+                {dateCreated}
+            </p>
+            {recipe.categories.length > 0 && (
+                <div className="flex flex-wrap">
+                    {recipe.categories.map((category: any, index: number) => (
+                        <div
+                            key={index}
+                            className="flex-initial mr-4 mt-4 p-2 shadow-sm rounded-lg bg-indigo-100 text-md font-medium text-indigo-800 text-center"
+                        >
+                            {category.name}
+                        </div>
+                    ))}
+                </div>
+            )}
+            {recipe.imageUrl && recipe.imageUrl !== '' && (
+                <div className="mx-auto max-w-4xl m-4">
+                    <Image
+                        src={recipe.imageUrl}
+                        alt={recipe.title}
+                        height={150}
+                        width={150}
+                    />
+                </div>
+            )}
             <p className="text-2xl text-gray-500 mt-2">Description</p>
             <p className="text-gray-900">{recipe.description}</p>
             <p className="text-2xl text-gray-500 mt-2">Ingredients</p>
             <ul className="list-disc list-inside">
-                {recipe.ingredients.map((ingredient: any, index: number) => (
-                    <li key={index} className="text-gray-900 p-1">{ingredient.quantity} {ingredient.unit} {ingredient.name}</li>
+                {recipe.ingredients.map((ingredient: string, index: number) => (
+                    <li key={index} className="text-gray-900 p-1">
+                        {ingredient}
+                    </li>
                 ))}
             </ul>
             <p className="text-2xl text-gray-500 mt-2">Steps</p>
             <ol className="list-decimal list-inside">
                 {recipe.steps.map((step: string, index: number) => (
-                    <li key={index} className="text-gray-900 p-1">{step}</li>
+                    <li key={index} className="text-gray-900 p-1">
+                        {step}
+                    </li>
                 ))}
             </ol>
-            {userHasValidSession && recipeBelongsToUser && <div className="flex">
-                <button
-                    type="button"
-                    className="inline-flex items-center rounded-md border border-transparent bg-gray-400 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 m-2"
-                    onClick={() => editRecipe()}
-                >
-                    Edit
-                </button><button
-                    type="button"
-                    className="inline-flex items-center rounded-md border border-transparent bg-red-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 m-2"
-                    onClick={() => setOpenDelete(true)}
-                >
-                    Delete
-                </button>
-            </div>}
-            <DeleteRecipeModal open={openDelete} setOpen={setOpenDelete} onDelete={deleteRecipe} />
+            {userHasValidSession && recipeBelongsToUser && (
+                <div className="flex">
+                    <button
+                        type="button"
+                        className="inline-flex items-center rounded-md border border-transparent bg-gray-400 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 m-2"
+                        onClick={() => editRecipe()}
+                    >
+                        Edit
+                    </button>
+                    <button
+                        type="button"
+                        className="inline-flex items-center rounded-md border border-transparent bg-red-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 m-2"
+                        onClick={() => setOpenDelete(true)}
+                    >
+                        Delete
+                    </button>
+                </div>
+            )}
+            <DeleteRecipeModal
+                open={openDelete}
+                setOpen={setOpenDelete}
+                onDelete={deleteRecipe}
+            />
+        </div>
+    )
+}
 
-        </div >
-    );
-};
-
-export default Recipe;
+export default Recipe

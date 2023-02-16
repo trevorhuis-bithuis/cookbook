@@ -1,13 +1,22 @@
 import type { NextPage } from 'next'
-import NewRecipe from '../../components/recipeForm/newRecipe'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
+import NewRecipe from '../../components/newRecipe'
+import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
+import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 const CreateRecipe: NextPage = () => {
-    const { status } = useSession()
-    const router = useRouter()
+    const supabaseClient = useSupabaseClient()
+    const user = useUser()
 
-    if (status === 'unauthenticated') router.push('/')
+    if (!user)
+        return (
+            <Auth
+                redirectTo="http://localhost:3000/"
+                appearance={{ theme: ThemeSupa }}
+                supabaseClient={supabaseClient}
+                providers={['google']}
+                socialLayout="horizontal"
+            />
+        )
 
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
