@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 interface RecipeBoxProps {
-    recipe: Recipe
+    recipe: any
 }
 
 export default function RecipeBox(props: RecipeBoxProps) {

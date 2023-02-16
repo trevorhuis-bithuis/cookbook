@@ -15,7 +15,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 author_id: req.body.author_id,
                 image_url: req.body.imageUrl,
             })
-            .select().single();
+            .select()
+            .single()
 
         if (recipeError || !recipe) {
             res.status(500).json({ recipeError })
@@ -31,7 +32,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         name: category,
                     }
                 })
-            ).select()
+            )
+            .select()
 
         if (categoriesError) {
             res.status(500).json({ categoriesError })
