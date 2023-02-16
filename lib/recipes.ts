@@ -39,7 +39,7 @@ export async function getRecipeData(id: string) {
         .single()
 
     let imageUrl: string | undefined = ''
-    if (recipe!.image_url && recipe!.image_url === '') {
+    if (recipe && recipe!.image_url && recipe!.image_url === '') {
         imageUrl = await getPublicUrl(recipe!.image_url)
     }
     if (error) {
