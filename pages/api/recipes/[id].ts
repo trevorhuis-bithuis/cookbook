@@ -28,7 +28,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         }
         res.status(200).json(data)
     } else if (req.method === 'PUT') {
-        const categories: string[] = req.body.categories;
+        const categories: string[] = req.body.categories
 
         const { data, error } = await supabase
             .from('recipes')
@@ -55,9 +55,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             return
         }
 
-        const { data: newCategoriesData, error: newCategoriesError } = await supabase
-            .from('recipe_categories')
-            .insert(
+        const { data: newCategoriesData, error: newCategoriesError } =
+            await supabase.from('recipe_categories').insert(
                 categories.map((category: string) => {
                     return {
                         recipe_id: id,

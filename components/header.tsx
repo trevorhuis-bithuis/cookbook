@@ -9,7 +9,11 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Header() {
+interface HeaderProps {
+    isOwner: boolean
+}
+
+export default function Header(props: HeaderProps) {
     const router = useRouter()
     const session = useSession()
     const supabase = useSupabaseClient()
@@ -26,13 +30,13 @@ export default function Header() {
             current: router.pathname.includes('/blog') ? true : false,
         },
         {
-            name: 'Menu',
-            href: '/menu',
-            current: router.pathname.includes('/menu') ? true : false,
+            name: 'Menus',
+            href: '/menus',
+            current: router.pathname.includes('/menus') ? true : false,
         },
     ]
 
-    if (session)
+    if (session?.user && props.isOwner)
         navigation.push({
             name: 'New Recipe',
             href: '/recipes/create',
@@ -133,7 +137,7 @@ export default function Header() {
                                                 <Menu.Item>
                                                     {({ active }) => (
                                                         <Link
-                                                            href="/recipes/your-recipes"
+                                                            href="/recipes/favorites"
                                                             className={classNames(
                                                                 active
                                                                     ? 'bg-gray-100'
@@ -141,7 +145,7 @@ export default function Header() {
                                                                 'block px-4 py-2 text-sm text-gray-700'
                                                             )}
                                                         >
-                                                            Your Recipes
+                                                            Favorites
                                                         </Link>
                                                     )}
                                                 </Menu.Item>
