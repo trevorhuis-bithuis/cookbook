@@ -19,13 +19,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     } else if (req.method === 'GET') {
         const { data, error } = await supabase
             .from('recipes')
-            .select('*')
+            .select('*, categories:recipe_categories(name)')
             .match({ id: id })
             .single()
         if (error) {
             res.status(500).json({ error })
             return
         }
+        console.log(data)
         res.status(200).json(data)
     } else if (req.method === 'PUT') {
         const categories: string[] = req.body.categories
