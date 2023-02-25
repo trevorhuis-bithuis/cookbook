@@ -6,7 +6,7 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react'
 const Search: NextPage = () => {
     const [isLoading, setLoading] = useState(false)
     const [recipes, setRecipes] = useState<any[]>([])
-    const [categories, setCategories] = useState<any[]>()
+    const [categories, setCategories] = useState<any[]>([])
     const [searchText, setSearchText] = useState('')
     const [selectedCategories, setSelectedCategories] = useState([])
     const [page, setPage] = useState(1)
