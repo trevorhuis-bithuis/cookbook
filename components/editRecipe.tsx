@@ -53,7 +53,7 @@ export default function EditRecipe() {
             .then((res) => res.json())
             .then((data) => {
                 setTitle(data.title)
-                setCategories(data.categories)
+                setCategories(data.categories.map((c: any) => c.name))
                 setDescription(data.description)
                 setIngredients(data.ingredients)
                 setSteps(data.steps)

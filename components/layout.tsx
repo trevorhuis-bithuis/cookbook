@@ -22,7 +22,6 @@ export default function Layout({ children }: { children: ReactNode }) {
             })
     }
 
-
     return (
         <>
             <Header isOwner={isOwner} />
