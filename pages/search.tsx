@@ -5,8 +5,8 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react'
 
 const Search: NextPage = () => {
     const [isLoading, setLoading] = useState(false)
-    const [recipes, setRecipes] = useState([])
-    const [categories, setCategories] = useState([])
+    const [recipes, setRecipes] = useState<any[]>([])
+    const [categories, setCategories] = useState<any[]>()
     const [searchText, setSearchText] = useState('')
     const [selectedCategories, setSelectedCategories] = useState([])
     const [page, setPage] = useState(1)
@@ -18,33 +18,29 @@ const Search: NextPage = () => {
         setLoading(true)
 
         async function getCategories() {
-            let { data, error } = await supabase
-                .rpc('get_recipe_categories')
+            let { data, error } = await supabase.rpc('get_recipe_categories')
 
             if (error) console.error(error)
-            else setCategories(data)
+            else setCategories(data!)
         }
-
 
         getCategories()
 
         setLoading(false)
-
-
     }, [supabase])
 
     function searchRecipes() {
         setLoading(true)
 
         async function getRecipes() {
-            let recipes: any[] = [];
+            let recipes: any[] = []
             if (selectedCategories.length === 0) {
                 const { data, error } = await supabase
                     .from('recipes')
                     .select('id, title, category:recipe_categories(name)')
                     .textSearch('title', `'${searchText}'`, {
-                        config: 'english'
-                    });
+                        config: 'english',
+                    })
                 if (error) console.error(error)
                 else recipes = data
             } else {
@@ -53,8 +49,8 @@ const Search: NextPage = () => {
                     .select('title, category:recipe_categories(name)')
                     .in('category', selectedCategories)
                     .textSearch('title', `'${searchText}'`, {
-                        config: 'english'
-                    });
+                        config: 'english',
+                    })
                 if (error) console.error(error)
                 else recipes = data
             }
@@ -103,8 +99,10 @@ const Search: NextPage = () => {
                         className="w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                     >
                         <option value="all">All</option>
-                        {categories.map((category, index) => (
-                            <option key={index} value={category}>{category}</option>
+                        {categories!.map((category, index) => (
+                            <option key={index} value={category}>
+                                {category}
+                            </option>
                         ))}
                     </select>
                 </div>
@@ -120,7 +118,9 @@ const Search: NextPage = () => {
                 </div>
             </div>
 
-            {recipes.length === 0 && noneFound && <p className="text-xl mt-6">No recipes found</p>}
+            {recipes.length === 0 && noneFound && (
+                <p className="text-xl mt-6">No recipes found</p>
+            )}
             {recipes.length > 0 && (
                 <>
                     <div className="py-4 mt-6">
@@ -133,8 +133,21 @@ const Search: NextPage = () => {
                     >
                         <div className="hidden sm:block">
                             <p className="text-sm text-gray-700">
-                                Showing <span className="font-medium">{(page * 8 - 7)}</span> to <span className="font-medium">{page * 8 > recipes.length ? recipes.length : page * 8}</span> of{' '}
-                                <span className="font-medium">{recipes.length}</span> results
+                                Showing{' '}
+                                <span className="font-medium">
+                                    {page * 8 - 7}
+                                </span>{' '}
+                                to{' '}
+                                <span className="font-medium">
+                                    {page * 8 > recipes.length
+                                        ? recipes.length
+                                        : page * 8}
+                                </span>{' '}
+                                of{' '}
+                                <span className="font-medium">
+                                    {recipes.length}
+                                </span>{' '}
+                                results
                             </p>
                         </div>
                         <div className="flex flex-1 justify-between sm:justify-end">
@@ -151,7 +164,7 @@ const Search: NextPage = () => {
                             </button>
                             <button
                                 onClick={() => {
-                                    if (page < (Math.floor(recipes.length / 8))) {
+                                    if (page < Math.floor(recipes.length / 8)) {
                                         setPage(page + 1)
                                         searchRecipes()
                                     }
@@ -161,9 +174,11 @@ const Search: NextPage = () => {
                                 Next
                             </button>
                         </div>
-                    </nav></>
+                    </nav>
+                </>
             )}
-        </div>)
+        </div>
+    )
 }
 
 export default Search
