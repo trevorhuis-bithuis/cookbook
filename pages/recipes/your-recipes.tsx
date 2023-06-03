@@ -1,32 +1,22 @@
-import type { NextPage } from 'next'
-import RecipeGrid from '../../components/recipeGrid'
-import { useEffect, useState } from 'react'
-import { useSession } from '@supabase/auth-helpers-react'
+import type { NextPage } from "next";
+import RecipeGrid from "../../components/recipeGrid";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 const YourRecipes: NextPage = () => {
-    const [isLoading, setLoading] = useState(false)
-    const [recipes, setRecipes] = useState([])
+    const { data: session } = useSession();
 
-    let userId: string | undefined | null
+    const [isLoading, setLoading] = useState(false);
+    const [recipes, setRecipes] = useState([]);
 
-    const session = useSession()
+    let userEmail: string | undefined | null;
+
     if (session) {
-        userId = session!.user!.id
+        userEmail = session.user?.email;
     }
 
-    useEffect(() => {
-        if (!userId) return
-        setLoading(true)
-        fetch(`/api/recipes/search/${userId}`)
-            .then((res) => res.json())
-            .then((data) => {
-                setRecipes(data.recipes)
-                setLoading(false)
-            })
-    }, [userId])
-
-    if (isLoading) return <p>Loading...</p>
-    if (!recipes) return <p>No recipe data</p>
+    if (isLoading) return <p>Loading...</p>;
+    if (!recipes) return <p>No recipe data</p>;
 
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -78,7 +68,7 @@ const YourRecipes: NextPage = () => {
                 </div>
             </nav> */}
         </div>
-    )
-}
+    );
+};
 
-export default YourRecipes
+export default YourRecipes;
