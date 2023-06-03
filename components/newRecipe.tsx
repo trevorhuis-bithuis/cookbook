@@ -2,7 +2,6 @@ import { useState } from "react";
 import RecipeForm from "./recipeForm/recipeForm";
 
 export default function NewRecipe() {
-
   const [title, setTitle] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
   const [description, setDescription] = useState("");

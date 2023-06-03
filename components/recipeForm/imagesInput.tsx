@@ -6,7 +6,6 @@ type ImagesInputProps = {
 };
 
 export default function ImagesInput(props: ImagesInputProps) {
-
   async function addImage(e: React.ChangeEvent<HTMLInputElement>) {
     console.log("addImage");
   }

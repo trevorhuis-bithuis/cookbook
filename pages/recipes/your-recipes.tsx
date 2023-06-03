@@ -4,24 +4,24 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
 const YourRecipes: NextPage = () => {
-    const { data: session } = useSession();
+  const { data: session } = useSession();
 
-    const [isLoading, setLoading] = useState(false);
-    const [recipes, setRecipes] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const [recipes, setRecipes] = useState([]);
 
-    let userEmail: string | undefined | null;
+  let userEmail: string | undefined | null;
 
-    if (session) {
-        userEmail = session.user?.email;
-    }
+  if (session) {
+    userEmail = session.user?.email;
+  }
 
-    if (isLoading) return <p>Loading...</p>;
-    if (!recipes) return <p>No recipe data</p>;
+  if (isLoading) return <p>Loading...</p>;
+  if (!recipes) return <p>No recipe data</p>;
 
-    return (
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <p className="text-xl mt-6">Recipes</p>
-            {/* <label htmlFor="search" className="block text-sm font-medium text-gray-700 mt-2">
+  return (
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <p className="text-xl mt-6">Recipes</p>
+      {/* <label htmlFor="search" className="block text-sm font-medium text-gray-700 mt-2">
                 Search
             </label>
             <div className="relative w-1/2 flex items-center">
@@ -38,11 +38,11 @@ const YourRecipes: NextPage = () => {
                 </div>
             </div> */}
 
-            <div className="py-4">
-                <RecipeGrid recipes={recipes} />
-            </div>
+      <div className="py-4">
+        <RecipeGrid recipes={recipes} />
+      </div>
 
-            {/* <nav
+      {/* <nav
                 className="flex items-center justify-between border-gray-200 bg-white px-4 py-3 sm:px-6"
                 aria-label="Pagination"
             >
@@ -67,8 +67,8 @@ const YourRecipes: NextPage = () => {
                     </a>
                 </div>
             </nav> */}
-        </div>
-    );
+    </div>
+  );
 };
 
 export default YourRecipes;

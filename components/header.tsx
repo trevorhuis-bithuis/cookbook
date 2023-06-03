@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
-import { signIn, signOut, useSession } from "next-auth/react"
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 function classNames(...classes: any) {
@@ -14,7 +14,7 @@ interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps) {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
   const router = useRouter();
 
   const navigation = [
@@ -122,8 +122,8 @@ export default function Header(props: HeaderProps) {
                             <Link
                               href="/api/auth/signout"
                               onClick={(e) => {
-                                e.preventDefault()
-                                signOut()
+                                e.preventDefault();
+                                signOut();
                               }}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
@@ -143,8 +143,8 @@ export default function Header(props: HeaderProps) {
                     href="`/api/auth/signin`"
                     className="text-sm font-medium text-gray-300 hover:text-white"
                     onClick={(e) => {
-                      e.preventDefault()
-                      signIn()
+                      e.preventDefault();
+                      signIn();
                     }}
                   >
                     {" "}

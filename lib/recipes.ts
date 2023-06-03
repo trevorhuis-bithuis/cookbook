@@ -1,9 +1,5 @@
-async function getAllRecipeIds() {
+async function getAllRecipeIds() {}
 
-}
+async function getRecipeData() {}
 
-async function getRecipeData() {
-
-}
-
-export { getAllRecipeIds, getRecipeData }
+export { getAllRecipeIds, getRecipeData };

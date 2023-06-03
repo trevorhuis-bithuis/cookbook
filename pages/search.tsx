@@ -11,7 +11,6 @@ const Search: NextPage = () => {
   const [page, setPage] = useState(1);
   const [noneFound, setNoneFound] = useState<boolean | null>(null);
 
-
   function searchRecipes() {
     setLoading(true);
 
