@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const recipe = await getRecipeData();
+  const recipe = await getRecipeData(params.id);
   return {
     props: {
       recipe,

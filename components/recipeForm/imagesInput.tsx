@@ -1,14 +1,36 @@
 import { v4 as uuidv4 } from "uuid";
 
 type ImagesInputProps = {
-  imageUrl: string;
   setImageUrl: (image: string) => void;
 };
 
 export default function ImagesInput(props: ImagesInputProps) {
-  async function addImage(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log("addImage");
-  }
+  const { setImageUrl } = props;
+
+  const uploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length <= 0) return;
+    const file = e.target.files[0];
+    const filename = encodeURIComponent(
+      `${uuidv4()}.${file.name.split(".")[1]}`
+    );
+    const res = await fetch(`/api/upload-image?file=${filename}`);
+    const data = await res.json();
+    const formData = new FormData();
+
+    Object.entries({ ...data.fields, file }).forEach(([key, value]) => {
+      // @ts-ignore
+      formData.append(key, value);
+    });
+
+    fetch(data.url, {
+      method: "POST",
+      body: formData,
+    });
+
+    setImageUrl(
+      `https://cookbook-recipe-images.s3.amazonaws.com/${data.fields.key}`
+    );
+  };
 
   return (
     <div className="sm:col-span-6">
@@ -46,7 +68,7 @@ export default function ImagesInput(props: ImagesInputProps) {
                 type="file"
                 className="sr-only"
                 accept=".jpg, .jpeg, .png"
-                onInput={addImage}
+                onInput={uploadPhoto}
               />
             </label>
             <p className="pl-1">or drag and drop</p>
