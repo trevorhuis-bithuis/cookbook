@@ -67,6 +67,6 @@ model Recipe {
   steps       String[]
   ingredients String[]
   categories  String[]
-  author      User     @relation(fields: [authorEmail], references: [email])
-  authorEmail String
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
 }
