@@ -19,7 +19,7 @@ export async function getStaticProps({ params }: any) {
   const recipe = await getRecipeData(params.id);
   return {
     props: {
-      recipe,
+      recipes: JSON.parse(JSON.stringify(recipe)),
     },
   };
 }

@@ -15,6 +15,7 @@ export default async function handler(
 
   if (method === "GET") {
     const recipes = await getRecipes();
+    console.log(recipes)
     return res.status(200).json(recipes);
   }
 

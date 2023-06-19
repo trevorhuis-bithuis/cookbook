@@ -15,7 +15,14 @@ const Search: NextPage = () => {
     setLoading(true);
 
     async function getRecipes() {
-      console.log("searchRecipes");
+      const fetchedRecipes = await fetch(
+        `api/recipes?search=${searchText}&categories=${selectedCategories}&page=${page}`
+      );
+
+      const recipes = await fetchedRecipes.json();
+
+      setRecipes(recipes);
+
     }
 
     getRecipes();
