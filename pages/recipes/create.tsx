@@ -8,7 +8,7 @@ import IngredientsInput from "../../components/recipeForm/ingredientsInput";
 import ImagesInput from "../../components/recipeForm/imagesInput";
 import CancelAndSaveButtons from "../../components/recipeForm/cancelAndSaveButtons";
 import { useSession } from "next-auth/react";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 const CreateRecipe: NextPage = () => {
   const { data: session } = useSession();
