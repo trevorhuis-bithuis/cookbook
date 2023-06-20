@@ -19,7 +19,7 @@ export async function getStaticProps({ params }: any) {
   const recipe = await getRecipeData(params.id);
   return {
     props: {
-      recipes: JSON.parse(JSON.stringify(recipe)),
+      recipe: JSON.parse(JSON.stringify(recipe)),
     },
   };
 }
@@ -32,7 +32,7 @@ const Recipe: NextPage = ({ recipe }: any) => {
   const { id } = router.query;
 
   const userHasValidSession = Boolean(session);
-  const recipeBelongsToUser = session?.user?.email === recipe.author_email;
+  const recipeBelongsToUser = session?.user?.email === recipe.author.email;
 
   async function deleteRecipe(): Promise<void> {
     await fetch(`/api/recipes/${id}`, {
@@ -51,7 +51,7 @@ const Recipe: NextPage = ({ recipe }: any) => {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-2">
       <p className="text-4xl font-bold text-gray-900 p-1">{recipe.title}</p>
       <p className="text-md text-gray-500 mt-2">
-        Recipe by {recipe.profiles.full_name} | Published on {dateCreated}
+        Recipe by {recipe.author.name} | Published on {dateCreated}
       </p>
       {recipe.categories.length > 0 && (
         <div className="flex flex-wrap">
@@ -65,13 +65,13 @@ const Recipe: NextPage = ({ recipe }: any) => {
           ))}
         </div>
       )}
-      {recipe.imageUrl && recipe.imageUrl !== "" && (
+      {recipe.photo && recipe.photo !== "" && (
         <div className="mx-auto max-w-4xl m-4">
           <Image
-            src={recipe.imageUrl}
+            src={recipe.photo}
             alt={recipe.title}
-            height={150}
-            width={150}
+            height={300}
+            width={300}
           />
         </div>
       )}

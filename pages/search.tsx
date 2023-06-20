@@ -22,7 +22,6 @@ const Search: NextPage = () => {
       const recipes = await fetchedRecipes.json();
 
       setRecipes(recipes);
-
     }
 
     getRecipes();

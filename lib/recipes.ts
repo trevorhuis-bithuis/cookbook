@@ -22,6 +22,14 @@ async function getRecipeData(id: string) {
     where: {
       id,
     },
+    include: {
+      author: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+    },
   });
 
   return recipe;
@@ -29,6 +37,7 @@ async function getRecipeData(id: string) {
 
 async function getRecipes() {
   const recipes = await prisma.recipe.findMany();
+  console.log(recipes);
   return recipes;
 }
 
@@ -49,7 +58,11 @@ async function createRecipe(
       steps,
       categories,
       photo,
-      authorEmail,
+      author: {
+        connect: {
+          email: authorEmail,
+        },
+      },
     },
   });
 
@@ -64,7 +77,7 @@ async function updateRecipe(
   steps: string[],
   categories: string[],
   photo: string,
-  authorEmail: string
+  authorId: string
 ) {
   const recipe = await prisma.recipe.update({
     where: {
@@ -76,7 +89,7 @@ async function updateRecipe(
       ingredients,
       steps,
       photo,
-      authorEmail,
+      authorId,
     },
   });
 

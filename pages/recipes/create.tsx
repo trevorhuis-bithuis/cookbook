@@ -9,6 +9,7 @@ import ImagesInput from "../../components/recipeForm/imagesInput";
 import CancelAndSaveButtons from "../../components/recipeForm/cancelAndSaveButtons";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { CheckIcon } from "@heroicons/react/24/outline";
 
 const CreateRecipe: NextPage = () => {
   const { data: session } = useSession();
@@ -21,10 +22,6 @@ const CreateRecipe: NextPage = () => {
   const [ingredients, setIngredients] = useState<string[]>([""]);
   const [steps, setSteps] = useState<string[]>([""]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const createRecipe = async () => {
-    console.log("createRecipe");
-  };
 
   function handleCancel() {
     console.log("cancel");
@@ -79,10 +76,29 @@ const CreateRecipe: NextPage = () => {
             <ImagesInput setImageUrl={setImageUrl} />
           </div>
 
+          {imageUrl && (
+            <div className="items-center mx-auto">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+                <CheckIcon
+                  className="h-6 w-6 text-green-600"
+                  aria-hidden="true"
+                />
+              </div>
+              <div className="mt-3 text-center sm:mt-5">Upload successful</div>
+            </div>
+          )}
           <CancelAndSaveButtons
             handleCancel={handleCancel}
             handleSaveRecipe={handleSave}
-            isSaveDisabled={false}
+            isSaveDisabled={
+              title !== "" &&
+              description !== "" &&
+              categories.length !== 0 &&
+              steps[0] !== "" &&
+              ingredients[0] !== ""
+                ? false
+                : true
+            }
           />
         </form>
       </div>

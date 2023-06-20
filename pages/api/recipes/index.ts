@@ -11,15 +11,15 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { method, body } = req;
-  const { ...data } = JSON.parse(body);
 
   if (method === "GET") {
     const recipes = await getRecipes();
-    console.log(recipes)
+    console.log(recipes);
     return res.status(200).json(recipes);
   }
 
   if (method === "POST") {
+    const { ...data } = JSON.parse(body);
     const recipe = await createRecipe(
       data.title,
       data.description,
@@ -33,6 +33,7 @@ export default async function handler(
   }
 
   if (method === "PUT") {
+    const { ...data } = JSON.parse(body);
     const recipe = await updateRecipe(
       data.id,
       data.title,
@@ -47,6 +48,7 @@ export default async function handler(
   }
 
   if (method === "DELETE") {
+    const { ...data } = JSON.parse(body);
     const recipe = await deleteRecipe(data.id);
     return res.status(200).json(recipe);
   }
