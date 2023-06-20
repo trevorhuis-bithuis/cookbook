@@ -18,9 +18,9 @@ const RecipeEdit: NextPage = () => {
   const [steps, setSteps] = useState<string[]>([""]);
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
 
-  const cancelEdit = () => { };
+  const cancelEdit = () => {};
 
-  const saveRecipe = () => { };
+  const saveRecipe = () => {};
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-2">
