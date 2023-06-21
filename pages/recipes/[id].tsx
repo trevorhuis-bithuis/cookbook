@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { getAllRecipeIds, getRecipeData } from "../../lib/recipes";
+import { getAllRecipeIds, getRecipeById } from "../../lib/recipes";
 import Image from "next/image";
 import { useState } from "react";
 import DeleteRecipeModal from "../../components/recipeView/deleteModal";
@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const recipe = await getRecipeData(params.id);
+  const recipe = await getRecipeById(params.id);
   return {
     props: {
       recipe: JSON.parse(JSON.stringify(recipe)),
@@ -60,7 +60,7 @@ const Recipe: NextPage = ({ recipe }: any) => {
               key={index}
               className="flex-initial mr-4 mt-4 p-2 shadow-sm rounded-lg bg-indigo-100 text-md font-medium text-indigo-800 text-center"
             >
-              {category.name}
+              {category}
             </div>
           ))}
         </div>

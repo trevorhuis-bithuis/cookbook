@@ -46,6 +46,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   Recipe        Recipe[]
+  owner         Boolean   @default(false)
 }
 
 model VerificationToken {

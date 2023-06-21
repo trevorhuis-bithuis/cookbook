@@ -1,10 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import {
-  getRecipes,
-  createRecipe,
-  updateRecipe,
-  deleteRecipe,
-} from "../../../lib/recipes";
+import { getRecipes, createRecipe } from "../../../lib/recipes";
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,7 +9,6 @@ export default async function handler(
 
   if (method === "GET") {
     const recipes = await getRecipes();
-    console.log(recipes);
     return res.status(200).json(recipes);
   }
 
@@ -29,27 +23,6 @@ export default async function handler(
       data.photo,
       data.authorEmail
     );
-    return res.status(200).json(recipe);
-  }
-
-  if (method === "PUT") {
-    const { ...data } = JSON.parse(body);
-    const recipe = await updateRecipe(
-      data.id,
-      data.title,
-      data.description,
-      data.ingredients,
-      data.steps,
-      data.categories,
-      data.photo,
-      data.authorEmail
-    );
-    return res.status(200).json(recipe);
-  }
-
-  if (method === "DELETE") {
-    const { ...data } = JSON.parse(body);
-    const recipe = await deleteRecipe(data.id);
     return res.status(200).json(recipe);
   }
 

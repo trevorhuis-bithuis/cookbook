@@ -17,7 +17,7 @@ async function getAllRecipeIds() {
   });
 }
 
-async function getRecipeData(id: string) {
+async function getRecipeById(id: string) {
   const recipe = await prisma.recipe.findUnique({
     where: {
       id,
@@ -37,7 +37,6 @@ async function getRecipeData(id: string) {
 
 async function getRecipes() {
   const recipes = await prisma.recipe.findMany();
-  console.log(recipes);
   return recipes;
 }
 
@@ -108,7 +107,7 @@ async function deleteRecipe(id: string) {
 
 export {
   getAllRecipeIds,
-  getRecipeData,
+  getRecipeById,
   getRecipes,
   createRecipe,
   updateRecipe,
