@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
-import RecipeSearchBar from "../components/recipeSearchBar";
-import RecipeGrid from "../components/recipeGrid";
-import Paginator from "../components/paginator";
+import SearchBar from "@/components/searchBar";
+import RecipeGrid from "@/components/recipeGrid";
+import Paginator from "@/components/paginator";
 import { useEffect, useState } from "react";
 
 const Search: NextPage = () => {
@@ -17,7 +17,7 @@ const Search: NextPage = () => {
 
     async function getRecipes() {
       const fetchedRecipes = await fetch(
-        `api/search?search=${searchText}&category=${selectedCategory}&page=${
+        `/api/recipes/search?search=${searchText}&category=${selectedCategory}&page=${
           page - 1
         }`
       );
@@ -33,10 +33,10 @@ const Search: NextPage = () => {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <p className="text-xl mt-6">Recipes</p>
-      <RecipeSearchBar
+      <SearchBar
         setSearchText={setSearchText}
         setSelectedCategory={setSelectedCategory}
-        searchRecipes={searchRecipes}
+        search={searchRecipes}
         page={page}
       />
 

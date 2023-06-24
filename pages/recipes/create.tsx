@@ -8,7 +8,7 @@ import {
   IngredientsInput,
   StepsInput,
   TitleInput,
-} from "../../components/forms";
+} from "@/components/forms";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { CheckIcon } from "@heroicons/react/24/outline";

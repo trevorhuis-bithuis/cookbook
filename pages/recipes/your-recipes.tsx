@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import RecipeGrid from "../../components/recipeGrid";
+import RecipeGrid from "@/components/recipeGrid";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 

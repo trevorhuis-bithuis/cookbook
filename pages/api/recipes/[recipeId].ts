@@ -3,7 +3,7 @@ import {
   deleteRecipe,
   getRecipeById,
   updateRecipe,
-} from "../../../lib/recipes";
+} from "@/lib/recipes";
 
 export default async function handler(
   req: NextApiRequest,

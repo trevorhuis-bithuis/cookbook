@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-type recipeSearchBarProps = {
+type searchBarProps = {
   setSearchText: (searchText: string) => void;
   setSelectedCategory: (selectedCategory: string) => void;
-  searchRecipes: () => void;
+  search: () => void;
   page: number;
 };
 
-export default function RecipeSearchBar(props: recipeSearchBarProps) {
-  const { setSearchText, setSelectedCategory, searchRecipes } = props;
+export default function SearchBar(props: searchBarProps) {
+  const { setSearchText, setSelectedCategory, search } = props;
 
   const [categories, setCategories] = useState<string[]>([]);
 
@@ -61,7 +61,7 @@ export default function RecipeSearchBar(props: recipeSearchBarProps) {
         <button
           type="button"
           className="inline-flex items-center mx-2 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          onClick={searchRecipes}
+          onClick={search}
         >
           Search
         </button>

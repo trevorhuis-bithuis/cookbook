@@ -1,5 +1,7 @@
 import type { NextPage } from "next";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import {
   CancelAndSaveButton,
   CategoriesInput,
@@ -8,12 +10,10 @@ import {
   IngredientsInput,
   StepsInput,
   TitleInput,
-} from "../../components/forms";
-import RecipeSearchBar from "../../components/RecipeSearchBar";
-import Paginator from "../../components/Paginator";
-import RecipeList from "../../components/RecipeList";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+} from "@/components/forms";
+import SearchBar from "@/components/SearchBar";
+import Paginator from "@/components/Paginator";
+import RecipeList from "@/components/RecipeList";
 
 const CreateMenu: NextPage = () => {
   const { data: session } = useSession();
@@ -53,12 +53,11 @@ const CreateMenu: NextPage = () => {
 
     async function getRecipes() {
       const fetchedRecipes = await fetch(
-        `/api/search?search=${searchText}&category=${selectedCategory}&page=${
+        `/api/recipes/search?search=${searchText}&category=${selectedCategory}&page=${
           page - 1
         }`
       );
       const recipes = await fetchedRecipes.json();
-      console.log(recipes);
       setRecipes(recipes);
     }
 
@@ -104,12 +103,10 @@ const CreateMenu: NextPage = () => {
             </h3>
           </div>
 
-          
-
-          <RecipeSearchBar
+          <SearchBar
             setSearchText={setSearchText}
             setSelectedCategory={setSelectedCategory}
-            searchRecipes={searchRecipes}
+            search={searchRecipes}
             page={page}
           />
 
@@ -129,9 +126,7 @@ const CreateMenu: NextPage = () => {
             handleCancel={handleCancel}
             handleSaveRecipe={handleSave}
             isSaveDisabled={
-              title !== "" &&
-              description !== "" &&
-              recipes.length !== 0 
+              title !== "" && description !== "" && recipes.length !== 0
                 ? false
                 : true
             }

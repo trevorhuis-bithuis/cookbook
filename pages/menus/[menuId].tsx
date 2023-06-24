@@ -1,11 +1,13 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { getAllMenuIds, getMenuById } from "../../lib/menus";
-import Image from "next/image";
-import { useState } from "react";
-import DeleteMenuModal from "../../components/deleteModal";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { useState } from "react";
+import DeleteMenuModal from "@/components/deleteModal";
+import RecipeGrid from "@/components/RecipeGrid";
+import { getAllMenuIds, getMenuById } from "@/lib/menus";
+
 
 export async function getStaticPaths() {
   const paths = await getAllMenuIds();
@@ -27,6 +29,7 @@ export async function getStaticProps({ params }: any) {
 const Menu: NextPage = ({ menu }: any) => {
   const { data: session } = useSession();
   const router = useRouter();
+  console.log(menu)
 
   const [openDelete, setOpenDelete] = useState(false);
   const { menuId } = router.query;
@@ -55,6 +58,9 @@ const Menu: NextPage = ({ menu }: any) => {
       </p>
       <p className="text-2xl text-gray-500 mt-2">Description</p>
       <p className="text-gray-900">{menu.description}</p>
+      <div className="mx-4">
+      <RecipeGrid recipes={menu.recipes} />
+      </div>
       {userHasValidSession && menuBelongsToUser && (
         <div className="flex">
           <button

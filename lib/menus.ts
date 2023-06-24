@@ -28,6 +28,12 @@ async function getMenuById(id: string) {
           email: true,
         },
       },
+      recipes: {
+        select: {
+          id: true,
+          title: true,
+        }
+      }
     },
   });
 
@@ -63,4 +69,42 @@ async function createMenu(
   return menu;
 }
 
-export { getMenuById, createMenu, getMenus, getAllMenuIds };
+async function searchMenus(
+  query: string,
+  category: string,
+  page: string,
+  limit: string
+): Promise<any> {
+  let menus: any[] = [];
+
+  if (query.length === 0 && category.toLowerCase() === "all") {
+    menus = await prisma.menu.findMany({
+      skip: parseInt(page),
+      take: parseInt(limit),
+    });
+  } else if (query.length === 0 && category.toLowerCase() !== "all") {
+    menus = await prisma.menu.findMany({
+      where: {
+        categories: {
+          has: category,
+        },
+      },
+      skip: parseInt(page),
+      take: parseInt(limit),
+    });
+  } else if (query.length !== 0 && category.toLowerCase() === "all") {
+    menus = await prisma.menu.findMany({
+      where: {
+        title: {
+          search: query,
+        },
+      },
+      skip: parseInt(page),
+      take: parseInt(limit),
+    });
+  }
+  return menus;
+}
+
+
+export { getMenuById, createMenu, getMenus, getAllMenuIds, searchMenus };

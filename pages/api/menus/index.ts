@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createMenu, getMenus } from "../../../lib/menus";
+import { createMenu, getMenus } from "@/lib/menus";
 
 export default async function handler(
   req: NextApiRequest,

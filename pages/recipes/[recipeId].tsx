@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { getAllRecipeIds, getRecipeById } from "../../lib/recipes";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
-import DeleteRecipeModal from "../../components/deleteModal";
 import dayjs from "dayjs";
-import { useSession } from "next-auth/react";
+import DeleteRecipeModal from "@/components/deleteModal";
+import { getAllRecipeIds, getRecipeById } from "@/lib/recipes";
 
 export async function getStaticPaths() {
   const paths = await getAllRecipeIds();
