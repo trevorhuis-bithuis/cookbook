@@ -6,7 +6,7 @@ import DescriptionInput from "../../../components/recipeForm/descriptionInput";
 import StepsInput from "../../../components/recipeForm/stepsInput";
 import IngredientsInput from "../../../components/recipeForm/ingredientsInput";
 import ImagesInput from "../../../components/recipeForm/imagesInput";
-import CancelAndSaveButtons from "../../../components/recipeForm/cancelAndSaveButtons";
+import CancelAndSaveButtons from "../../../components/forms/cancelAndSaveButtons";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { CheckIcon } from "@heroicons/react/24/outline";
@@ -116,10 +116,10 @@ const EditRecipe: NextPage = () => {
             handleSaveRecipe={handleSave}
             isSaveDisabled={
               title !== "" &&
-              description !== "" &&
-              categories.length !== 0 &&
-              steps[0] !== "" &&
-              ingredients[0] !== ""
+                description !== "" &&
+                categories.length !== 0 &&
+                steps[0] !== "" &&
+                ingredients[0] !== ""
                 ? false
                 : true
             }
