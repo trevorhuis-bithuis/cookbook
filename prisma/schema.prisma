@@ -49,6 +49,7 @@ model User {
   sessions      Session[]
   Recipe        Recipe[]
   owner         Boolean   @default(false)
+  Menu          Menu[]
 }
 
 model VerificationToken {
@@ -72,4 +73,16 @@ model Recipe {
   categories  String[]
   author      User     @relation(fields: [authorId], references: [id])
   authorId    String
+  menus       Menu[]
+}
+
+model Menu {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String
+  description String
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
+  recipes     Recipe[]
 }

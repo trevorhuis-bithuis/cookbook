@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import { useState } from "react";
-import TitleInput from "../../components/recipeForm/titleInput";
-import CategoriesInput from "../../components/recipeForm/categoriesInput";
-import DescriptionInput from "../../components/recipeForm/descriptionInput";
-import StepsInput from "../../components/recipeForm/stepsInput";
-import IngredientsInput from "../../components/recipeForm/ingredientsInput";
-import ImagesInput from "../../components/recipeForm/imagesInput";
-import CancelAndSaveButtons from "../../components/recipeForm/cancelAndSaveButtons";
+import TitleInput from "../../components/forms/titleInput";
+import CategoriesInput from "../../components/forms/categoriesInput";
+import DescriptionInput from "../../components/forms/descriptionInput";
+import StepsInput from "../../components/forms/stepsInput";
+import IngredientsInput from "../../components/forms/ingredientsInput";
+import ImagesInput from "../../components/forms/imagesInput";
+import CancelAndSaveButtons from "../../components/forms/cancelAndSaveButtons";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { CheckIcon } from "@heroicons/react/24/outline";
@@ -92,10 +92,10 @@ const CreateRecipe: NextPage = () => {
             handleSaveRecipe={handleSave}
             isSaveDisabled={
               title !== "" &&
-              description !== "" &&
-              categories.length !== 0 &&
-              steps[0] !== "" &&
-              ingredients[0] !== ""
+                description !== "" &&
+                categories.length !== 0 &&
+                steps[0] !== "" &&
+                ingredients[0] !== ""
                 ? false
                 : true
             }
