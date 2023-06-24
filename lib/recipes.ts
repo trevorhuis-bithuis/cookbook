@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import prisma from "./prisma";
 
 async function getAllRecipeIds() {
   const data = await prisma.recipe.findMany({
@@ -124,7 +123,7 @@ async function searchRecipes(
   page: string,
   limit: string
 ): Promise<any> {
-  let recipes: any[] = []
+  let recipes: any[] = [];
 
   if (query.length === 0 && category.toLowerCase() === "all") {
     recipes = await prisma.recipe.findMany({

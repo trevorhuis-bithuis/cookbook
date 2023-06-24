@@ -116,10 +116,10 @@ const EditRecipe: NextPage = () => {
             handleSaveRecipe={handleSave}
             isSaveDisabled={
               title !== "" &&
-                description !== "" &&
-                categories.length !== 0 &&
-                steps[0] !== "" &&
-                ingredients[0] !== ""
+              description !== "" &&
+              categories.length !== 0 &&
+              steps[0] !== "" &&
+              ingredients[0] !== ""
                 ? false
                 : true
             }

@@ -21,12 +21,12 @@ export default function Header(props: HeaderProps) {
     {
       name: "Search Recipes",
       href: "/search",
-      current: router.pathname.includes("/search") ? true : false,
+      current: router.pathname === "/search",
     },
     {
-      name: "Blog",
-      href: "/blog",
-      current: router.pathname.includes("/blog") ? true : false,
+      name: "Menus",
+      href: "/menus",
+      current: router.pathname === "/menus",
     },
   ];
 
@@ -34,12 +34,12 @@ export default function Header(props: HeaderProps) {
     navigation.push({
       name: "Create Recipe",
       href: "/recipes/create",
-      current: router.pathname.includes("/recipes/create") ? true : false,
+      current: router.pathname === "/recipes/create",
     });
     navigation.push({
-      name: "New Blog",
-      href: "/blog/create",
-      current: router.pathname.includes("/blog/create") ? true : false,
+      name: "Create Menu",
+      href: "/menus/create",
+      current: router.pathname === "/menus/create",
     });
   }
 

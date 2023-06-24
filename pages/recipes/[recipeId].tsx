@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { getAllRecipeIds, getRecipeById } from "../../lib/recipes";
 import Image from "next/image";
 import { useState } from "react";
-import DeleteRecipeModal from "../../components/recipeView/deleteModal";
+import DeleteRecipeModal from "../../components/deleteModal";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 
@@ -114,6 +114,7 @@ const Recipe: NextPage = ({ recipe }: any) => {
       <DeleteRecipeModal
         open={openDelete}
         setOpen={setOpenDelete}
+        itemToDelete={"Recipe"}
         onDelete={deleteRecipe}
       />
     </div>

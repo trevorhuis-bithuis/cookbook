@@ -1,12 +1,14 @@
 import type { NextPage } from "next";
 import { useState } from "react";
-import TitleInput from "../../components/forms/titleInput";
-import CategoriesInput from "../../components/forms/categoriesInput";
-import DescriptionInput from "../../components/forms/descriptionInput";
-import StepsInput from "../../components/forms/stepsInput";
-import IngredientsInput from "../../components/forms/ingredientsInput";
-import ImagesInput from "../../components/forms/imagesInput";
-import CancelAndSaveButtons from "../../components/forms/cancelAndSaveButtons";
+import {
+  CancelAndSaveButton,
+  CategoriesInput,
+  DescriptionInput,
+  ImagesInput,
+  IngredientsInput,
+  StepsInput,
+  TitleInput,
+} from "../../components/forms";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { CheckIcon } from "@heroicons/react/24/outline";
@@ -87,15 +89,15 @@ const CreateRecipe: NextPage = () => {
               <div className="mt-3 text-center sm:mt-5">Upload successful</div>
             </div>
           )}
-          <CancelAndSaveButtons
+          <CancelAndSaveButton
             handleCancel={handleCancel}
             handleSaveRecipe={handleSave}
             isSaveDisabled={
               title !== "" &&
-                description !== "" &&
-                categories.length !== 0 &&
-                steps[0] !== "" &&
-                ingredients[0] !== ""
+              description !== "" &&
+              categories.length !== 0 &&
+              steps[0] !== "" &&
+              ingredients[0] !== ""
                 ? false
                 : true
             }

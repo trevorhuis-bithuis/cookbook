@@ -15,14 +15,15 @@ export default function DescriptionInput(props: descriptionInputProps) {
         Description
       </label>
       <div className="mt-1">
-        <input
-          type="text"
-          name="recipe-description"
-          id="recipe-description"
-          autoComplete="given-name"
+        <textarea
+          id="step"
+          name="step"
+          rows={2}
           className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => {
+            setDescription(e.target.value);
+          }}
         />
       </div>
     </div>
