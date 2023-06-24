@@ -5,11 +5,12 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 interface DeleteRecipeModalProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  itemToDelete: string;
   onDelete: () => void;
 }
 
 export default function DeleteRecipeModal(props: DeleteRecipeModalProps) {
-  const { open, setOpen, onDelete } = props;
+  const { open, setOpen, itemToDelete, onDelete } = props;
 
   const cancelButtonRef = useRef(null);
 
@@ -62,13 +63,14 @@ export default function DeleteRecipeModal(props: DeleteRecipeModalProps) {
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900"
                     >
-                      Delete Recipe
+                      Delete {itemToDelete}
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Are you sure you want to delete this recipe? All of your
-                        data will be permanently removed from our servers
-                        forever. This action cannot be undone.
+                        Are you sure you want to delete this{" "}
+                        {itemToDelete.toLowerCase()}? All of your data will be
+                        permanently removed from our servers forever. This
+                        action cannot be undone.
                       </p>
                     </div>
                   </div>

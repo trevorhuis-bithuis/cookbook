@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getRecipes, createRecipe } from "../../../lib/recipes";
+import { getRecipes, createRecipe } from "@/lib/recipes";
 
 export default async function handler(
   req: NextApiRequest,
