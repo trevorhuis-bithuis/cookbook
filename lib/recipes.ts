@@ -11,7 +11,7 @@ async function getAllRecipeIds() {
   return data.map((recipe) => {
     return {
       params: {
-        id: recipe.id,
+        recipeId: recipe.id,
       },
     };
   });
@@ -75,8 +75,7 @@ async function updateRecipe(
   ingredients: string[],
   steps: string[],
   categories: string[],
-  photo: string,
-  authorId: string
+  photo: string
 ) {
   const recipe = await prisma.recipe.update({
     where: {
@@ -86,9 +85,9 @@ async function updateRecipe(
       title,
       description,
       ingredients,
+      categories,
       steps,
       photo,
-      authorId,
     },
   });
 
@@ -105,6 +104,57 @@ async function deleteRecipe(id: string) {
   return recipe;
 }
 
+async function getAllRecipeCategories() {
+  const categories = await prisma.recipe.findMany({
+    distinct: ["categories"],
+    select: {
+      categories: true,
+    },
+  });
+  let categoriesArray: string[] = [];
+  categories.forEach((category) => {
+    categoriesArray = categoriesArray.concat(category.categories);
+  });
+  return categoriesArray;
+}
+
+async function searchRecipes(
+  query: string,
+  category: string,
+  page: string,
+  limit: string
+): Promise<any> {
+  let recipes: any[] = []
+
+  if (query.length === 0 && category.toLowerCase() === "all") {
+    recipes = await prisma.recipe.findMany({
+      skip: parseInt(page),
+      take: parseInt(limit),
+    });
+  } else if (query.length === 0 && category.toLowerCase() !== "all") {
+    recipes = await prisma.recipe.findMany({
+      where: {
+        categories: {
+          has: category,
+        },
+      },
+      skip: parseInt(page),
+      take: parseInt(limit),
+    });
+  } else if (query.length !== 0 && category.toLowerCase() === "all") {
+    recipes = await prisma.recipe.findMany({
+      where: {
+        title: {
+          search: query,
+        },
+      },
+      skip: parseInt(page),
+      take: parseInt(limit),
+    });
+  }
+  return recipes;
+}
+
 export {
   getAllRecipeIds,
   getRecipeById,
@@ -112,4 +162,6 @@ export {
   createRecipe,
   updateRecipe,
   deleteRecipe,
+  getAllRecipeCategories,
+  searchRecipes,
 };

@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const recipe = await getRecipeById(params.id);
+  const recipe = await getRecipeById(params.recipeId);
   return {
     props: {
       recipe: JSON.parse(JSON.stringify(recipe)),
@@ -29,20 +29,20 @@ const Recipe: NextPage = ({ recipe }: any) => {
   const router = useRouter();
 
   const [openDelete, setOpenDelete] = useState(false);
-  const { id } = router.query;
+  const { recipeId } = router.query;
 
   const userHasValidSession = Boolean(session);
   const recipeBelongsToUser = session?.user?.email === recipe.author.email;
 
   async function deleteRecipe(): Promise<void> {
-    await fetch(`/api/recipes/${id}`, {
+    await fetch(`/api/recipes/${recipeId}`, {
       method: "DELETE",
     });
     router.back();
   }
 
   async function editRecipe(): Promise<void> {
-    await router.push(`/recipes/edit/${id}`);
+    await router.push(`/recipes/edit/${recipeId}`);
   }
 
   const dateCreated = dayjs(recipe.createdAt).format("MMMM D, YYYY");

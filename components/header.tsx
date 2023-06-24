@@ -19,7 +19,7 @@ export default function Header(props: HeaderProps) {
 
   const navigation = [
     {
-      name: "Search",
+      name: "Search Recipes",
       href: "/search",
       current: router.pathname.includes("/search") ? true : false,
     },
@@ -28,19 +28,20 @@ export default function Header(props: HeaderProps) {
       href: "/blog",
       current: router.pathname.includes("/blog") ? true : false,
     },
-    {
-      name: "Menus",
-      href: "/menus",
-      current: router.pathname.includes("/menus") ? true : false,
-    },
   ];
 
-  if (session?.user && props.isOwner)
+  if (session?.user && props.isOwner) {
     navigation.push({
-      name: "New Recipe",
+      name: "Create Recipe",
       href: "/recipes/create",
       current: router.pathname.includes("/recipes/create") ? true : false,
     });
+    navigation.push({
+      name: "New Blog",
+      href: "/blog/create",
+      current: router.pathname.includes("/blog/create") ? true : false,
+    });
+  }
 
   return (
     <Disclosure as="nav" className="bg-gray-800">

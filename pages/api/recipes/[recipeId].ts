@@ -1,5 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { deleteRecipe, getRecipeById } from "../../../lib/recipes";
+import {
+  deleteRecipe,
+  getRecipeById,
+  updateRecipe,
+} from "../../../lib/recipes";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,12 +15,22 @@ export default async function handler(
   }
 
   if (req.method === "PUT") {
+    const { body } = req;
+    const { ...data } = JSON.parse(body);
+    const recipe = await updateRecipe(
+      req.query.recipeId as string,
+      data.title,
+      data.description,
+      data.ingredients,
+      data.steps,
+      data.categories,
+      data.photo
+    );
+    return res.status(200).json(recipe);
   }
 
   if (req.method === "DELETE") {
-    const { body } = req;
-    const { ...data } = JSON.parse(body);
-    const recipe = await deleteRecipe(data.id);
+    const recipe = await deleteRecipe(req.query.recipeId as string);
     return res.status(200).json(recipe);
   }
 

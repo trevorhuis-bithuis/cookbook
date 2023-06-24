@@ -50,8 +50,8 @@ const EditRecipe: NextPage = () => {
   }, [router.query]);
 
   async function handleSave() {
-    const data = await fetch("/api/recipes", {
-      method: "POST",
+    const data = await fetch(`/api/recipes/${router.query.recipeId}`, {
+      method: "PUT",
       body: JSON.stringify({
         title,
         description,

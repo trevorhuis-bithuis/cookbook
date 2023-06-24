@@ -14,6 +14,23 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_SECRET,
     }),
   ],
+  callbacks: {
+    async session({ session, token, user }) {
+      const dbUser = await prisma.user.findUnique({
+        select: {
+          owner: true,
+        },
+        where: {
+          email: session!.user!.email as string,
+        },
+      });
+
+      // @ts-ignore
+      session.user.owner = dbUser!.owner;
+
+      return session
+    }
+  }
 };
 
 export default NextAuth(authOptions);

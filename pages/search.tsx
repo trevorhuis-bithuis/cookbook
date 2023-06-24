@@ -1,26 +1,43 @@
-import type { NextPage } from "next";
+import type {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
 import RecipeGrid from "../components/recipeGrid";
 import { useEffect, useState } from "react";
+import { getAllRecipeCategories } from "../lib/recipes";
+
+type SearchProps = {
+  categories: string[];
+};
 
 const Search: NextPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [recipes, setRecipes] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [categories, setCategories] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const [noneFound, setNoneFound] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    async function getCategories() {
+      const fetchedCategories = await fetch("/api/search/filters");
+      const data = await fetchedCategories.json();
+      setCategories(data);
+    }
+
+    getCategories();
+  }, []);
 
   function searchRecipes() {
     setLoading(true);
 
     async function getRecipes() {
       const fetchedRecipes = await fetch(
-        `api/recipes?search=${searchText}&categories=${selectedCategories}&page=${page}`
+        `api/search?search=${searchText}&category=${selectedCategory}&page=${page - 1}`
       );
-
       const recipes = await fetchedRecipes.json();
-
       setRecipes(recipes);
     }
 
@@ -58,6 +75,7 @@ const Search: NextPage = () => {
             id="category"
             name="category"
             className="w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            onChange={(e) => setSelectedCategory(e.target.value)}
           >
             <option value="all">All</option>
             {categories!.map((category, index) => (
