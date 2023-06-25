@@ -4,7 +4,7 @@ import RecipeGrid from "@/components/recipeGrid";
 import Paginator from "@/components/paginator";
 import { useEffect, useState } from "react";
 
-const Search: NextPage = () => {
+const RecipeSearch: NextPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [recipes, setRecipes] = useState<any[]>([]);
   const [searchText, setSearchText] = useState("");
@@ -61,4 +61,4 @@ const Search: NextPage = () => {
   );
 };
 
-export default Search;
+export default RecipeSearch;

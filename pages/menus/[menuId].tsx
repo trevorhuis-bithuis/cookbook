@@ -57,7 +57,8 @@ const Menu: NextPage = ({ menu }: any) => {
       </p>
       <p className="text-2xl text-gray-500 mt-2">Description</p>
       <p className="text-gray-900">{menu.description}</p>
-      <div className="mx-4">
+      <p className="text-2xl text-gray-500 mt-2">Recipes</p>
+      <div className="m-4">
         <RecipeGrid recipes={menu.recipes} />
       </div>
       {userHasValidSession && menuBelongsToUser && (

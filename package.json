@@ -18,6 +18,7 @@
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
     "@prisma/client": "^4.16.1",
+    "clsx": "^1.2.1",
     "cuid": "^3.0.0",
     "dayjs": "^1.11.7",
     "multer": "^1.4.5-lts.1",
