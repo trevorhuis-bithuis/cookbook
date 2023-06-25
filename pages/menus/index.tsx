@@ -52,8 +52,8 @@ const Menus: NextPage = () => {
           <Paginator
             page={page}
             setPage={setPage}
-            isLoading={isLoading}
-            menuLength={menus.length}
+            search={searchMenus}
+            length={menus.length}
           />
         </>
       )}

@@ -1,4 +1,4 @@
-import MenuBox from "./menuBox";
+import MenuBox from "@/components/menuGrid/menuBox";
 import { useState } from "react";
 
 interface MenuGridProps {

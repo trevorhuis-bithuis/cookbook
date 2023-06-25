@@ -1,9 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import {
-  deleteRecipe,
-  getRecipeById,
-  updateRecipe,
-} from "@/lib/recipes";
+import { deleteRecipe, getRecipeById, updateRecipe } from "@/lib/recipes";
 
 export default async function handler(
   req: NextApiRequest,

@@ -52,8 +52,8 @@ const Search: NextPage = () => {
           <Paginator
             page={page}
             setPage={setPage}
-            isLoading={isLoading}
-            recipeLength={recipes.length}
+            search={searchRecipes}
+            length={recipes.length}
           />
         </>
       )}

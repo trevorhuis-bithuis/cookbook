@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
 type paginatorProps = {
-  recipeLength: number;
+  length: number;
   page: number;
   setPage: (page: number) => void;
-  searchRecipes: () => void;
+  search: () => void;
 };
 
 export default function Paginator(props: paginatorProps) {
-  const { recipeLength, page, setPage, searchRecipes } = props;
+  const { length, page, setPage, search } = props;
 
   return (
     <nav
@@ -19,9 +19,9 @@ export default function Paginator(props: paginatorProps) {
         <p className="text-sm text-gray-700">
           Showing <span className="font-medium">{page * 8 - 7}</span> to{" "}
           <span className="font-medium">
-            {page * 8 > recipeLength ? recipeLength : page * 8}
+            {page * 8 > length ? length : page * 8}
           </span>{" "}
-          of <span className="font-medium">{recipeLength}</span> results
+          of <span className="font-medium">{length}</span> results
         </p>
       </div>
       <div className="flex flex-1 justify-between sm:justify-end">
@@ -29,7 +29,7 @@ export default function Paginator(props: paginatorProps) {
           onClick={() => {
             if (page > 1) {
               setPage(page - 1);
-              searchRecipes();
+              search();
             }
           }}
           className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
@@ -38,9 +38,9 @@ export default function Paginator(props: paginatorProps) {
         </button>
         <button
           onClick={() => {
-            if (page < Math.floor(recipeLength / 8)) {
+            if (page < Math.floor(length / 8)) {
               setPage(page + 1);
-              searchRecipes();
+              search();
             }
           }}
           className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"

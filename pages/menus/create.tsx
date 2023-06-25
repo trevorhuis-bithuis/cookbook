@@ -11,9 +11,9 @@ import {
   StepsInput,
   TitleInput,
 } from "@/components/forms";
-import SearchBar from "@/components/SearchBar";
-import Paginator from "@/components/Paginator";
-import RecipeList from "@/components/RecipeList";
+import SearchBar from "@/components/searchBar";
+import Paginator from "@/components/paginator";
+import RecipeList from "@/components/recipeList";
 
 const CreateMenu: NextPage = () => {
   const { data: session } = useSession();
@@ -21,7 +21,7 @@ const CreateMenu: NextPage = () => {
 
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [selectedRecipes, setSelectedRecipes] = useState<[]>([]);
+  const [selectedRecipes, setSelectedRecipes] = useState<any[]>([]);
   const [recipes, setRecipes] = useState<any[]>([]);
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -116,8 +116,8 @@ const CreateMenu: NextPage = () => {
               <Paginator
                 page={page}
                 setPage={setPage}
-                isLoading={isLoading}
-                recipeLength={recipes.length}
+                search={searchRecipes}
+                length={recipes.length}
               />
             </>
           )}
