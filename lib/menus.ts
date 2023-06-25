@@ -32,8 +32,8 @@ async function getMenuById(id: string) {
         select: {
           id: true,
           title: true,
-        }
-      }
+        },
+      },
     },
   });
 
@@ -84,9 +84,13 @@ async function searchMenus(
     });
   } else if (query.length === 0 && category.toLowerCase() !== "all") {
     menus = await prisma.menu.findMany({
-      where: {
-        categories: {
-          has: category,
+      select: {
+        recipes: {
+          where: {
+            categories: {
+              has: category,
+            },
+          },
         },
       },
       skip: parseInt(page),
@@ -105,6 +109,5 @@ async function searchMenus(
   }
   return menus;
 }
-
 
 export { getMenuById, createMenu, getMenus, getAllMenuIds, searchMenus };

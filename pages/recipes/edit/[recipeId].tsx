@@ -1,6 +1,14 @@
 import type { NextPage } from "next";
 import { useState, useEffect } from "react";
-import { TitleInput, CategoriesInput, DescriptionInput, StepsInput, IngredientsInput, ImagesInput, CancelAndSaveButtons } from "@/components/recipeForm";
+import {
+  TitleInput,
+  CategoriesInput,
+  DescriptionInput,
+  StepsInput,
+  IngredientsInput,
+  ImagesInput,
+  CancelAndSaveButton,
+} from "@/components/forms";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { CheckIcon } from "@heroicons/react/24/outline";
@@ -105,7 +113,7 @@ const EditRecipe: NextPage = () => {
               <div className="mt-3 text-center sm:mt-5">Upload successful</div>
             </div>
           )}
-          <CancelAndSaveButtons
+          <CancelAndSaveButton
             handleCancel={handleCancel}
             handleSaveRecipe={handleSave}
             isSaveDisabled={
