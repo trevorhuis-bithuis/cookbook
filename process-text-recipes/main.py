@@ -93,7 +93,7 @@ async def write_to_db(db, recipes) -> Any:
             "description": recipe.description,
             "ingredients": recipe.ingredients,
             "steps": recipe.steps,
-            "authorId": "cljafrq860000w2rxg4n1two8"
+            "authorId": "clk6269s600007h3g5h830k9z"
         })
     commit = await batcher.commit()
     return commit

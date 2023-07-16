@@ -126,9 +126,14 @@ async function searchRecipes(
     recipes = await prisma.recipe.findMany({
       skip: parseInt(page),
       take: parseInt(limit),
-      orderBy: {
-        title: "asc",
-      },
+      orderBy: [
+        {
+          title: 'desc',
+        },
+        {
+          id: 'desc',
+        }
+      ],
     });
   } else if (query.length === 0 && category.toLowerCase() !== "all") {
     recipes = await prisma.recipe.findMany({
