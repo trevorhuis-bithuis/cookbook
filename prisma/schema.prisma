@@ -75,6 +75,8 @@ model Recipe {
   author      User     @relation(fields: [authorId], references: [id])
   authorId    String
   menus       Menu[]
+
+  @@index([title(sort: Asc)], name: "title")
 }
 
 model Menu {

@@ -1,5 +1,4 @@
 import RecipeBox from "./recipeBox";
-import { useState } from "react";
 
 interface RecipeGridProps {
   recipes: any[];

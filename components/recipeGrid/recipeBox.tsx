@@ -12,13 +12,23 @@ export default function RecipeBox(props: RecipeBoxProps) {
   return (
     <Link href={`/recipes/${recipe.id}`}>
       <div className="flex flex-1 flex-col p-8">
-        {/* <Image className="mx-auto h-30 w-30 flex-shrink-0" width={30} height={30} src={recipe.images[0]} alt="" /> */}
+        {/* <div className="h-48 w-48 relative">
+          <Image className="rounded-md" fill={true} src={recipe.photo} alt="" />
+        </div> */}
+
         <h3 className="mt-6 text-lg font-medium text-gray-900">
           {recipe.title}
         </h3>
-        {/* <dl className="mt-1 flex flex-grow flex-col justify-between">
-                    <dd className="text-sm text-gray-500">{recipe.category}</dd>
-                </dl> */}
+        <ul className="mt-2 flex flex-col space-y-2">
+          {recipe.categories.map((category: string, index: number) => (
+            <li
+              key={index}
+              className="relative flex-initial mr-2 mt-2 p-1 shadow-sm rounded-lg bg-indigo-100 text-md font-medium text-indigo-800 text-center"
+            >
+              {category}
+            </li>
+          ))}
+        </ul>
       </div>
     </Link>
   );

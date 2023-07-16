@@ -38,7 +38,7 @@ export default function Paginator(props: paginatorProps) {
         </button>
         <button
           onClick={() => {
-            if (page < Math.floor(length / 8)) {
+            if (page < length / 8) {
               setPage(page + 1);
               search();
             }

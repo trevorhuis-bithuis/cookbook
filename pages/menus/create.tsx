@@ -99,7 +99,7 @@ const CreateMenu: NextPage = () => {
 
           <div className="mt-8">
             <h3 className="text-lg font-medium leading-6 text-gray-900">
-              Add More Recipes
+              Add Recipes
             </h3>
           </div>
 

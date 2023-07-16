@@ -34,11 +34,6 @@ async function getRecipeById(id: string) {
   return recipe;
 }
 
-async function getRecipes() {
-  const recipes = await prisma.recipe.findMany();
-  return recipes;
-}
-
 async function createRecipe(
   title: string,
   description: string,
@@ -125,10 +120,15 @@ async function searchRecipes(
 ): Promise<any> {
   let recipes: any[] = [];
 
+  const count = await prisma.recipe.count();
+
   if (query.length === 0 && category.toLowerCase() === "all") {
     recipes = await prisma.recipe.findMany({
       skip: parseInt(page),
       take: parseInt(limit),
+      orderBy: {
+        title: "asc",
+      },
     });
   } else if (query.length === 0 && category.toLowerCase() !== "all") {
     recipes = await prisma.recipe.findMany({
@@ -151,13 +151,12 @@ async function searchRecipes(
       take: parseInt(limit),
     });
   }
-  return recipes;
+  return { recipes, count };
 }
 
 export {
   getAllRecipeIds,
   getRecipeById,
-  getRecipes,
   createRecipe,
   updateRecipe,
   deleteRecipe,

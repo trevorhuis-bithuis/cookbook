@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "process-text-recipes"
+version = "0.1.0"
+description = ""
+authors = ["Trevor Huis in 't Veld <trevorhuis@bithuis.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+prisma = "^0.9.1"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.scripts]
+main = "process_text_recipes:main"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

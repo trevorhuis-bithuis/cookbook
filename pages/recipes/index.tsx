@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 const RecipeSearch: NextPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [recipes, setRecipes] = useState<any[]>([]);
+  const [recipeCount, setRecipeCount] = useState(0);
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [page, setPage] = useState(1);
@@ -17,12 +18,12 @@ const RecipeSearch: NextPage = () => {
 
     async function getRecipes() {
       const fetchedRecipes = await fetch(
-        `/api/recipes/search?search=${searchText}&category=${selectedCategory}&page=${
-          page - 1
+        `/api/recipes/search?search=${searchText}&category=${selectedCategory}&page=${page - 1
         }`
       );
-      const recipes = await fetchedRecipes.json();
-      setRecipes(recipes);
+      const data = await fetchedRecipes.json();
+      setRecipeCount(data.count);
+      setRecipes(data.recipes);
     }
 
     getRecipes();
@@ -40,10 +41,10 @@ const RecipeSearch: NextPage = () => {
         page={page}
       />
 
-      {recipes.length === 0 && noneFound && (
+      {recipeCount === 0 && noneFound && (
         <p className="text-xl mt-6">No recipes found</p>
       )}
-      {recipes.length > 0 && (
+      {recipeCount > 0 && (
         <>
           <div className="py-4 mt-6">
             <RecipeGrid recipes={recipes} />
@@ -53,7 +54,7 @@ const RecipeSearch: NextPage = () => {
             page={page}
             setPage={setPage}
             search={searchRecipes}
-            length={recipes.length}
+            length={recipeCount}
           />
         </>
       )}
