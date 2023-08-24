@@ -11,13 +11,16 @@ import { getRecipe, deleteRecipe } from "~/models/recipe.server";
 
 import DeleteRecipeModal from "~/components/deleteModal";
 import { useState } from "react";
+import { getUser } from "~/session.server";
 
-export const loader: LoaderFunction = async ({ params }: LoaderArgs) => {
+export const loader: LoaderFunction = async ({ request, params }: LoaderArgs) => {
+  const user = await getUser(request);
+  const isOwner = user?.isOwner === true;
   const id = params.id as string;
 
   const recipe = await getRecipe(id);
 
-  return recipe;
+  return { recipe, isOwner };
 };
 
 export const action: ActionFunction = async ({
@@ -39,7 +42,7 @@ export const action: ActionFunction = async ({
 };
 
 const Recipe = () => {
-  let recipe = useLoaderData();
+  let { recipe, isOwner } = useLoaderData();
 
   const [openDelete, setOpenDelete] = useState<boolean>(false);
 
@@ -105,21 +108,22 @@ const Recipe = () => {
           </li>
         ))}
       </ol>
-      <div className="flex">
-        <Link
-          className="m-2 inline-flex items-center rounded-md border border-transparent bg-gray-400 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          to={`/recipes/edit/${recipe._id}`}
-        >
-          Edit
-        </Link>
-        <button
-          type="button"
-          className="m-2 inline-flex items-center rounded-md border border-transparent bg-red-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          onClick={() => setOpenDelete(true)}
-        >
-          Delete
-        </button>
-      </div>
+      {isOwner && (
+        <div className="flex">
+          <Link
+            className="m-2 inline-flex items-center rounded-md border border-transparent bg-gray-400 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            to={`/recipes/edit/${recipe._id}`}
+          >
+            Edit
+          </Link>
+          <button
+            type="button"
+            className="m-2 inline-flex items-center rounded-md border border-transparent bg-red-500 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            onClick={() => setOpenDelete(true)}
+          >
+            Delete
+          </button>
+        </div>)}
       <Form method="POST">
         <DeleteRecipeModal
           open={openDelete}

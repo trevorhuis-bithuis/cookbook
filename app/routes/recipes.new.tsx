@@ -12,12 +12,16 @@ import {
   type ActionArgs,
   type LoaderFunction,
   type ActionFunction,
+  type LoaderArgs,
   redirect,
 } from "@remix-run/node";
 import { Form, useSubmit } from "@remix-run/react";
 import { createRecipe } from "~/models/recipe.server";
+import { requireUserId } from "~/session.server";
 
-export const loader: LoaderFunction = async (args) => {
+export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+  await requireUserId(request);
+
   return {};
 };
 

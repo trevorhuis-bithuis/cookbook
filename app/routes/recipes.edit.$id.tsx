@@ -18,9 +18,11 @@ import {
 } from "@remix-run/node";
 import { Form, useLoaderData, useSubmit } from "@remix-run/react";
 import { getRecipe, updateRecipe } from "~/models/recipe.server";
+import { requireUserId } from "~/session.server";
 
-export const loader: LoaderFunction = async (args: LoaderArgs) => {
-  const id = args.params.id as string;
+export const loader: LoaderFunction = async ({ request, params }: LoaderArgs) => {
+  await requireUserId(request);
+  const id = params.id as string;
   const recipe = await getRecipe(id);
 
   return recipe;

@@ -2,8 +2,6 @@ import type { V2_MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import recipeImage from "../images/recipe.png";
 
-import { useOptionalUser } from "~/utils";
-
 export const meta: V2_MetaFunction = () => [{ title: "Crystal's Cookbook" }];
 
 function Card({ title, description, image, url }: any) {
@@ -36,8 +34,6 @@ function Card({ title, description, image, url }: any) {
 }
 
 export default function Index() {
-  const user = useOptionalUser();
-  console.log(user);
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       <p className="m-6 text-center text-2xl">{`Crystal's Cooking`}</p>

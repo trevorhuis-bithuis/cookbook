@@ -36,12 +36,9 @@ export const action: ActionFunction = async ({ request }: ActionArgs) => {
 
   const recipes = await searchRecipes(
     values.searchText as string,
-    values.selectedCategory as string,
-    skip,
   );
-  const recipeCount = await getRecipeCount();
 
-  return { recipes, recipeCount, shouldShowPaginator: false };
+  return { recipes, 'recipeCount': 1, shouldShowPaginator: false };
 };
 
 const Recipes = () => {

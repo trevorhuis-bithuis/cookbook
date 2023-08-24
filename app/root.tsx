@@ -35,9 +35,6 @@ export default function App() {
     isAuthenticated = true;
   }
 
-  console.log(isOwner, isAuthenticated);
-
-  console.log(user);
   return (
     <html lang="en" className="h-full">
       <head>

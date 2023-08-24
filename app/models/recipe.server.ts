@@ -138,8 +138,6 @@ const getCategories = async () => {
 
 const searchRecipes = async (
   search: string,
-  category: string,
-  skip: number,
 ) => {
   const action = "aggregate";
   const sort = { title: 1, _id: 1 };
@@ -161,8 +159,9 @@ const searchRecipes = async (
     },
   ];
 
-  const config = buildMongoConfig({ action, pipeline, skip, category });
+  const config = buildMongoConfig({ action, pipeline });
   const result = await axios(config);
+  console.log(result.data.documents)
 
   return result.data.documents;
 };
