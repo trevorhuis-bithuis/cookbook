@@ -126,7 +126,6 @@ jobs:
           file: fly.toml
           field: app
 
-
       - name: 🚀 Deploy Production
         if: ${{ github.ref == 'refs/heads/remix' }}
         uses: superfly/flyctl-actions@1.4
