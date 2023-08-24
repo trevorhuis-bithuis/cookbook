@@ -1,7 +1,6 @@
 import type { V2_MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import recipeImage from "../images/recipe.png";
-import menuImage from "../images/menu.jpg";
 
 import { useOptionalUser } from "~/utils";
 
@@ -56,12 +55,6 @@ export default function Index() {
           description={"Your favorite recipes"}
           image={recipeImage}
           url={"/recipes/search"}
-        />
-        <Card
-          title={"Menus"}
-          description={"Curated menus for a special occasion"}
-          image={menuImage}
-          url={"/menus"}
         />
       </div>
     </div>
