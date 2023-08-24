@@ -8,6 +8,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 
 import { getUser } from "~/session.server";
@@ -25,6 +26,17 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export default function App() {
+  const user = useLoaderData().user;
+  let isOwner = false, isAuthenticated = false;
+
+  if (user) {
+    isOwner = user.isOwner === true;
+    isAuthenticated = true
+  }
+
+  console.log(isOwner, isAuthenticated)
+
+  console.log(user)
   return (
     <html lang="en" className="h-full">
       <head>
@@ -34,7 +46,7 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
-        <Header isOwner={true} />
+        <Header isOwner={isOwner} authenticated={isAuthenticated} />
         <Outlet />
         <Footer />
         <ScrollRestoration />

@@ -4,23 +4,42 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function seed() {
-  const email = "rachel@remix.run";
+  const defaultEmail = "rachel@remix.run"
+  const chefEmail = "crystal@cookbook.com"
 
   // cleanup the existing database
-  await prisma.user.delete({ where: { email } }).catch(() => {
+  await prisma.user.delete({ where: { email: defaultEmail } }).catch(() => {
     // no worries if it doesn't exist yet
   });
 
-  const hashedPassword = await bcrypt.hash("racheliscool", 10);
+  await prisma.user.delete({ where: { email: chefEmail } }).catch(() => {
+    // no worries if it doesn't exist yet
+  });
+
+  const defaultHashedPassword = await bcrypt.hash("racheliscool", 10);
 
   await prisma.user.create({
     data: {
-      email,
+      email: defaultEmail,
       password: {
         create: {
-          hash: hashedPassword,
+          hash: defaultHashedPassword,
         },
       },
+    },
+  });
+
+  const chefHashedPassword = await bcrypt.hash("thechefkiss", 10);
+
+  await prisma.user.create({
+    data: {
+      email: chefEmail,
+      password: {
+        create: {
+          hash: chefHashedPassword,
+        },
+      },
+      isOwner: true,
     },
   });
 
