@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import {
   type ActionArgs,
   type ActionFunction,
@@ -50,7 +49,7 @@ const Recipe = () => {
     <div className="mx-auto mt-2 max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="flex content-center justify-start space-x-2">
         <p className="p-1 text-4xl font-bold text-gray-900">{recipe.title}</p>
-        <button className="">
+        {/* <button className="">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -68,7 +67,7 @@ const Recipe = () => {
               d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
             />
           </svg>
-        </button>
+        </button> */}
       </div>
       <p className="text-md mt-2 text-gray-500">
         Published on {recipe.createdAt}
@@ -85,9 +84,9 @@ const Recipe = () => {
           ))}
         </div>
       )}
-      {recipe.photo && recipe.photo !== "" && (
+      {recipe.photoUrl && recipe.photoUrl !== "" && (
         <div className="m-4 mx-auto max-w-4xl">
-          <img src={recipe.photo} alt={recipe.title} height={300} width={300} />
+          <img src={recipe.photoUrl} alt={recipe.title} height={300} width={300} />
         </div>
       )}
       <p className="mt-2 text-2xl text-gray-500">Description</p>

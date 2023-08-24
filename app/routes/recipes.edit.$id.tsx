@@ -16,7 +16,7 @@ import {
   type ActionFunction,
   redirect,
 } from "@remix-run/node";
-import { Form, useLoaderData, useSubmit } from "@remix-run/react";
+import { Form, useLoaderData, useNavigate, useSubmit } from "@remix-run/react";
 import { getRecipe, updateRecipe } from "~/models/recipe.server";
 import { requireUserId } from "~/session.server";
 
@@ -60,6 +60,8 @@ export const action: ActionFunction = async ({
 
 const UpdateRecipe = () => {
   const recipe = useLoaderData<typeof loader>();
+  const navigate = useNavigate();
+
   const submit = useSubmit();
 
   const [title, setTitle] = useState<string>(recipe.title);
@@ -74,7 +76,7 @@ const UpdateRecipe = () => {
   const [steps, setSteps] = useState<string[]>(recipe.steps || []);
 
   function handleCancel() {
-    console.log("cancel");
+    navigate(`/recipes/${recipe._id}`)
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {

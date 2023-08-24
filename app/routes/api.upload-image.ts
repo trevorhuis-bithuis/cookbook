@@ -15,8 +15,11 @@ export async function loader({ request, params }: LoaderArgs) {
         acl: "public-read",
     };
 
+    const url = new URL(request.url);
+    const filename = url.searchParams.get("file");
+
     const Bucket = process.env.AWS_BUCKET_NAME!;
-    const Key = params.filename as string;
+    const Key = filename as string;
 
     const post = await createPresignedPost(s3, {
         Bucket,
