@@ -24,5 +24,4 @@ describe("smoke tests", () => {
   //   cy.findByRole("button", { name: /logout/i }).click();
   //   cy.findByRole("link", { name: /log in/i });
   // });
-
 });
