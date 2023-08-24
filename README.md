@@ -80,8 +80,8 @@ Prior to your first deployment, you'll need to do a few things:
 - Create two apps on Fly, one for staging and one for production:
 
   ```sh
-  fly apps create indie-stack-2fc7
-  fly apps create indie-stack-2fc7-staging
+  fly apps create cookbook
+  fly apps create cookbook-staging
   ```
 
   > **Note:** Make sure this name matches the `app` set in your `fly.toml` file. Otherwise, you will not be able to deploy.
@@ -103,8 +103,8 @@ Prior to your first deployment, you'll need to do a few things:
 - Add a `SESSION_SECRET` to your fly app secrets, to do this you can run the following commands:
 
   ```sh
-  fly secrets set SESSION_SECRET=$(openssl rand -hex 32) --app indie-stack-2fc7
-  fly secrets set SESSION_SECRET=$(openssl rand -hex 32) --app indie-stack-2fc7-staging
+  fly secrets set SESSION_SECRET=$(openssl rand -hex 32) --app cookbook-bithuis
+  fly secrets set SESSION_SECRET=$(openssl rand -hex 32) --app cookbook-staging
   ```
 
   If you don't have openssl installed, you can also use [1Password](https://1password.com/password-generator) to generate a random secret, just replace `$(openssl rand -hex 32)` with the generated secret.
@@ -112,8 +112,8 @@ Prior to your first deployment, you'll need to do a few things:
 - Create a persistent volume for the sqlite database for both your staging and production environments. Run the following:
 
   ```sh
-  fly volumes create data --size 1 --app indie-stack-2fc7
-  fly volumes create data --size 1 --app indie-stack-2fc7-staging
+  fly volumes create data --size 1 --app cookbook-bithuis
+  fly volumes create data --size 1 --app cookbook-staging
   ```
 
 Now that everything is set up you can commit and push your changes to your repo. Every commit to your `main` branch will trigger a deployment to your production environment, and every commit to your `dev` branch will trigger a deployment to your staging environment.
