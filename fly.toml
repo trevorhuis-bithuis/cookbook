@@ -1,4 +1,4 @@
-app = "indie-stack-2fc7"
+app = "cookbook-remix"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = [ ]
