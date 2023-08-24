@@ -101,7 +101,7 @@ async def write_to_db( recipes) -> Any:
     headers = {
     'Content-Type': 'application/json',
     'Access-Control-Request-Headers': '*',
-    'api-key': 'cJjJAtHC79ZOPipGfiA8BfNMHovwz90FmUDEZ3WA2EPlQ1S3CSsl5yurKHiTLsOq',
+    'api-key': 'fill-in',
     }
     response = requests.request("POST", url, headers=headers, data=payload)
     print(response.text)
