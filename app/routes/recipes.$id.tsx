@@ -5,14 +5,17 @@ import {
   type LoaderArgs,
   redirect,
 } from "@remix-run/node";
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import { Form, Link, useLoaderData, useSubmit } from "@remix-run/react";
 import { getRecipe, deleteRecipe } from "~/models/recipe.server";
 
 import DeleteRecipeModal from "~/components/deleteModal";
 import { useState } from "react";
 import { getUser } from "~/session.server";
 
-export const loader: LoaderFunction = async ({ request, params }: LoaderArgs) => {
+export const loader: LoaderFunction = async ({
+  request,
+  params,
+}: LoaderArgs) => {
   const user = await getUser(request);
   const isOwner = user?.isOwner === true;
   const id = params.id as string;
@@ -34,7 +37,7 @@ export const action: ActionFunction = async ({
   if (_action === "_delete") {
     await deleteRecipe(id);
 
-    return redirect("/recipes");
+    return redirect("/recipes/search");
   }
 
   return redirect(`/recipes/${id}`);
@@ -42,8 +45,21 @@ export const action: ActionFunction = async ({
 
 const Recipe = () => {
   let { recipe, isOwner } = useLoaderData();
-
   const [openDelete, setOpenDelete] = useState<boolean>(false);
+
+  const submit = useSubmit();
+
+  function handleDelete() {
+    submit(
+      {
+        id: recipe._id,
+        _action: "_delete",
+      },
+      {
+        method: "POST",
+      },
+    );
+  }
 
   return (
     <div className="mx-auto mt-4 max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -73,7 +89,8 @@ const Recipe = () => {
         <span className="text-md text-gray-500">
           Published on {recipe.createdAt}
         </span>
-        {recipe.categories && recipe.categories.length > 0 && (
+        {recipe.categories &&
+          recipe.categories.length > 0 &&
           recipe.categories.map((category: any, index: number) => (
             <div
               key={index}
@@ -81,16 +98,21 @@ const Recipe = () => {
             >
               {category}
             </div>
-          ))
-        )}
+          ))}
       </div>
       {recipe.photoUrl && recipe.photoUrl !== "" && (
         <div className="mb-8 mt-4 mx-right max-w-lg">
-          <img className="object-contain rounded-md" src={recipe.photoUrl} alt={recipe.title} />
+          <img
+            className="object-contain rounded-md"
+            src={recipe.photoUrl}
+            alt={recipe.title}
+          />
         </div>
       )}
 
-      {recipe.description !== '' && (<p className="mt-2 text-2xl text-gray-500">Description</p>)}
+      {recipe.description !== "" && (
+        <p className="mt-2 text-2xl text-gray-500">Description</p>
+      )}
       <p className="text-gray-900 mt-2">{recipe.description}</p>
       <div className="grid md:grid-cols-3 border-t-2">
         <div className="grid-span-1">
@@ -129,12 +151,14 @@ const Recipe = () => {
           >
             Delete
           </button>
-        </div>)}
+        </div>
+      )}
       <Form method="POST">
         <DeleteRecipeModal
           open={openDelete}
           setOpen={setOpenDelete}
           itemToDelete={"Recipe"}
+          handleDelete={handleDelete}
         />
       </Form>
     </div>

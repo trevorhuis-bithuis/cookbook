@@ -136,9 +136,7 @@ const getCategories = async () => {
   return result.data.documents[0].categories[0];
 };
 
-const searchRecipes = async (
-  search: string,
-) => {
+const searchRecipes = async (search: string) => {
   const action = "aggregate";
   const sort = { title: 1, _id: 1 };
   const pipeline = [
@@ -161,7 +159,7 @@ const searchRecipes = async (
 
   const config = buildMongoConfig({ action, pipeline });
   const result = await axios(config);
-  console.log(result.data.documents)
+  console.log(result.data.documents);
 
   return result.data.documents;
 };

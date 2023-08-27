@@ -111,10 +111,15 @@ export default function Header(props: HeaderProps) {
                         <Menu.Item>
                           {({ active }) => (
                             <Form method="post" action="/logout">
-                              <button className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block w-full text-left px-4 py-2 text-sm text-gray-700",
-                              )} type="submit">Sign out</button>
+                              <button
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block w-full text-left px-4 py-2 text-sm text-gray-700",
+                                )}
+                                type="submit"
+                              >
+                                Sign out
+                              </button>
                             </Form>
                           )}
                         </Menu.Item>

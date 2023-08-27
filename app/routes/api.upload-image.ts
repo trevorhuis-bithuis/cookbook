@@ -3,31 +3,31 @@ import { S3Client } from "@aws-sdk/client-s3";
 import { json, type LoaderArgs } from "@remix-run/node";
 
 const s3 = new S3Client({
-    region: process.env.AWS_REGION,
-    credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-    },
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+  },
 });
 
 export async function loader({ request, params }: LoaderArgs) {
-    const Fields = {
-        acl: "public-read",
-    };
+  const Fields = {
+    acl: "public-read",
+  };
 
-    const url = new URL(request.url);
-    const filename = url.searchParams.get("file");
+  const url = new URL(request.url);
+  const filename = url.searchParams.get("file");
 
-    const Bucket = process.env.AWS_BUCKET_NAME!;
-    const Key = filename as string;
+  const Bucket = process.env.AWS_BUCKET_NAME!;
+  const Key = filename as string;
 
-    const post = await createPresignedPost(s3, {
-        Bucket,
-        Key,
-        Fields,
-        Conditions: [["content-length-range", 0, 5048576]],
-        Expires: 600,
-    });
+  const post = await createPresignedPost(s3, {
+    Bucket,
+    Key,
+    Fields,
+    Conditions: [["content-length-range", 0, 5048576]],
+    Expires: 600,
+  });
 
-    return json(post);
+  return json(post);
 }

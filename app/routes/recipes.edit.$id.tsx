@@ -20,7 +20,10 @@ import { Form, useLoaderData, useNavigate, useSubmit } from "@remix-run/react";
 import { getRecipe, updateRecipe } from "~/models/recipe.server";
 import { requireUserId } from "~/session.server";
 
-export const loader: LoaderFunction = async ({ request, params }: LoaderArgs) => {
+export const loader: LoaderFunction = async ({
+  request,
+  params,
+}: LoaderArgs) => {
   await requireUserId(request);
   const id = params.id as string;
   const recipe = await getRecipe(id);
@@ -68,7 +71,7 @@ const UpdateRecipe = () => {
   const [steps, setSteps] = useState<string[]>(recipe.steps || []);
 
   function handleCancel() {
-    navigate(`/recipes/${recipe._id}`)
+    navigate(`/recipes/${recipe._id}`);
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -83,7 +86,7 @@ const UpdateRecipe = () => {
       steps,
       categories,
       photoUrl: imageUrl,
-    }
+    };
 
     formData.set("recipe", JSON.stringify(recipe));
 
