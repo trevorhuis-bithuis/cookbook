@@ -159,7 +159,6 @@ const searchRecipes = async (search: string) => {
 
   const config = buildMongoConfig({ action, pipeline });
   const result = await axios(config);
-  console.log(result.data.documents);
 
   return result.data.documents;
 };

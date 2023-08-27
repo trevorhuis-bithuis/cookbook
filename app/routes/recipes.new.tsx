@@ -52,7 +52,7 @@ const CreateRecipe = () => {
   const [steps, setSteps] = useState<string[]>([""]);
 
   const handleCancel = () => {
-    console.log("cancel");
+    redirect('/recipes/search')
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
