@@ -28,31 +28,23 @@ export const loader: LoaderFunction = async ({ request, params }: LoaderArgs) =>
   return recipe;
 };
 
-interface FormRequestValues {
-  title: string;
-  description: string;
-  categories: string;
-  steps: string;
-  photoUrl: string;
-  ingredients: string;
-}
-
 export const action: ActionFunction = async ({
   params,
   request,
 }: ActionArgs) => {
   const formData = await request.formData();
-  let values = Object.fromEntries(formData) as unknown as FormRequestValues;
   const id = params.id as string;
+
+  const recipe = JSON.parse(formData.get("recipe") as string);
 
   await updateRecipe(
     id,
-    values.title,
-    values.description,
-    values.ingredients.split(","),
-    values.steps.split(","),
-    values.categories.split(","),
-    values.photoUrl,
+    recipe.title,
+    recipe.description,
+    recipe.ingredients,
+    recipe.steps,
+    recipe.categories,
+    recipe.photoUrl,
   );
 
   return redirect(`/recipes/${id}`);
@@ -81,20 +73,19 @@ const UpdateRecipe = () => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
     let $form = event.currentTarget;
-
     let formData = new FormData($form);
 
-    formData.set("ingredients", `${ingredients.join(",")}`);
-    formData.set("categories", `${categories.join(",")}`);
-    formData.set("steps", `${steps.join(",")}`);
-    formData.set("photoUrl", imageUrl);
+    let recipe = {
+      title,
+      description,
+      ingredients,
+      steps,
+      categories,
+      photoUrl: imageUrl,
+    }
 
-    formData.delete("ingredient");
-    formData.delete("step");
-    formData.delete("'file-upload'");
-    formData.delete("category");
+    formData.set("recipe", JSON.stringify(recipe));
 
     submit(formData, {
       // @ts-ignore

@@ -12,15 +12,15 @@ export default function RecipeBox(props: RecipeBoxProps) {
 
   return (
     <Link to={`/recipes/${recipe._id}`}>
-      <div className="flex flex-1 flex-col p-8">
-        {/* <div className="h-48 w-48 relative">
-          <Image className="rounded-md" fill={true} src={recipe.photo} alt="" />
-        </div> */}
-
-        <h3 className="mt-6 text-lg font-medium text-gray-900">
+      <div className="flex flex-1 flex-col p-6">
+        <h3 className="text-lg font-medium text-gray-900">
           {recipe.title}
         </h3>
-        {/* <ul className="mt-2 flex flex-col space-y-2">
+
+        {recipe.photoUrl !== '' && (<div className="w-48 my-4 relative">
+          <img className="object-contain rounded-md" src={recipe.photoUrl} alt="" />
+        </div>)}
+        {recipe.categories && (<ul className="flex flex-col space-y-2">
           {recipe.categories.map((category: string, index: number) => (
             <li
               key={index}
@@ -29,7 +29,7 @@ export default function RecipeBox(props: RecipeBoxProps) {
               {category}
             </li>
           ))}
-        </ul> */}
+        </ul>)}
       </div>
     </Link>
   );

@@ -46,9 +46,9 @@ const Recipe = () => {
   const [openDelete, setOpenDelete] = useState<boolean>(false);
 
   return (
-    <div className="mx-auto mt-2 max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="mx-auto mt-4 max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="flex content-center justify-start space-x-2">
-        <p className="p-1 text-4xl font-bold text-gray-900">{recipe.title}</p>
+        <p className="text-4xl font-bold text-gray-900">{recipe.title}</p>
         {/* <button className="">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -69,44 +69,51 @@ const Recipe = () => {
           </svg>
         </button> */}
       </div>
-      <p className="text-md mt-2 text-gray-500">
-        Published on {recipe.createdAt}
-      </p>
-      {recipe.categories && recipe.categories.length > 0 && (
-        <div className="flex flex-wrap">
-          {recipe.categories.map((category: any, index: number) => (
+      <div className="flex items-center space-x-2 mt-2">
+        <span className="text-md text-gray-500">
+          Published on {recipe.createdAt}
+        </span>
+        {recipe.categories && recipe.categories.length > 0 && (
+          recipe.categories.map((category: any, index: number) => (
             <div
               key={index}
-              className="text-md mr-4 mt-4 flex-initial rounded-lg bg-indigo-100 p-2 text-center font-medium text-indigo-800 shadow-sm"
+              className="text-md flex-initial rounded-lg bg-indigo-100 p-2 text-center font-medium text-indigo-800 shadow-sm"
             >
               {category}
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
       {recipe.photoUrl && recipe.photoUrl !== "" && (
-        <div className="m-4 mx-auto max-w-4xl">
-          <img src={recipe.photoUrl} alt={recipe.title} height={300} width={300} />
+        <div className="mb-8 mt-4 mx-right max-w-lg">
+          <img className="object-contain rounded-md" src={recipe.photoUrl} alt={recipe.title} />
         </div>
       )}
-      <p className="mt-2 text-2xl text-gray-500">Description</p>
-      <p className="text-gray-900">{recipe.description}</p>
-      <p className="mt-2 text-2xl text-gray-500">Ingredients</p>
-      <ul className="list-inside list-disc">
-        {recipe.ingredients.map((ingredient: string, index: number) => (
-          <li key={index} className="p-1 text-gray-900">
-            {ingredient}
-          </li>
-        ))}
-      </ul>
-      <p className="mt-2 text-2xl text-gray-500">Steps</p>
-      <ol className="list-inside list-decimal">
-        {recipe.steps.map((step: string, index: number) => (
-          <li key={index} className="p-1 text-gray-900">
-            {step}
-          </li>
-        ))}
-      </ol>
+
+      {recipe.description !== '' && (<p className="mt-2 text-2xl text-gray-500">Description</p>)}
+      <p className="text-gray-900 mt-2">{recipe.description}</p>
+      <div className="grid md:grid-cols-3 border-t-2">
+        <div className="grid-span-1">
+          <p className="mt-2 text-2xl text-gray-500">Ingredients</p>
+          <ul className="list-inside list-disc">
+            {recipe.ingredients.map((ingredient: string, index: number) => (
+              <li key={index} className="p-1 text-gray-900">
+                {ingredient}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="grid-span-2">
+          <p className="mt-2 text-2xl text-gray-500">Steps</p>
+          <ol className="list-inside list-decimal">
+            {recipe.steps.map((step: string, index: number) => (
+              <li key={index} className="p-1 text-gray-900">
+                {step}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
       {isOwner && (
         <div className="flex">
           <Link
