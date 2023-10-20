@@ -3,7 +3,7 @@ name: 🚀 Deploy
 on:
   push:
     branches:
-      - remix
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

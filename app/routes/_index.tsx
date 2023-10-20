@@ -50,7 +50,7 @@ export default function Index() {
           title={"Recipes"}
           description={"Your favorite recipes"}
           image={recipeImage}
-          url={"/recipes/search"}
+          url={"/recipes"}
         />
       </div>
     </div>

@@ -20,8 +20,8 @@ export default function Header(props: HeaderProps) {
   const routes = [
     {
       name: "Search Recipes",
-      href: "/recipes/search",
-      current: navigation.location?.pathname === "/recipes/search",
+      href: "/recipes",
+      current: navigation.location?.pathname === "/recipes",
     },
   ];
 

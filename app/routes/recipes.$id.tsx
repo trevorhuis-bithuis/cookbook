@@ -37,7 +37,7 @@ export const action: ActionFunction = async ({
   if (_action === "_delete") {
     await deleteRecipe(id);
 
-    return redirect("/recipes/search");
+    return redirect("/recipes");
   }
 
   return redirect(`/recipes/${id}`);
