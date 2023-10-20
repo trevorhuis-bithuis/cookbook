@@ -1,11 +1,10 @@
 import os, json
+import requests
+import datetime
 from typing import Any
-from dotenv import load_dotenv
 import asyncio
-from prisma import Prisma
 from recipe import Recipe
 
-load_dotenv('../.env')
 
 def get_recipe_filenames() -> list:
     files = []
@@ -76,6 +75,8 @@ def write_to_json(recipes) -> None:
             "description": recipe.description,
             "ingredients": recipe.ingredients,
             "steps": recipe.steps,
+            "createdAt": datetime.datetime.now().isoformat(),
+            "updatedAt": datetime.datetime.now().isoformat(),
         }
         
         recipes_arr.append(recipe)
@@ -85,30 +86,37 @@ def write_to_json(recipes) -> None:
     with open(f"recipe_data/json/recipes.json", "w") as outfile:
         outfile.write(json_object)
         
-async def write_to_db(db, recipes) -> Any:
-    batcher = db.batch_()
-    for recipe in recipes:
-        batcher.recipe.create({
-            "title": recipe.title,
-            "description": recipe.description,
-            "ingredients": recipe.ingredients,
-            "steps": recipe.steps,
-            "authorId": "clk6269s600007h3g5h830k9z"
-        })
-    commit = await batcher.commit()
-    return commit
+    return recipes_arr
+        
+async def write_to_db( recipes) -> Any:
+    print(recipes)
+    url = "https://us-east-1.aws.data.mongodb-api.com/app/data-yhcha/endpoint/data/v1/action/insertMany"
+    
+    payload = json.dumps({
+    "collection": "Recipe",
+    "database": "cookbook",
+    "dataSource": "cookbook",
+    "documents": recipes,
+    })
+    headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Request-Headers': '*',
+    'api-key': 'fill-in',
+    }
+    response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)
+
+    return response.json()
 
 async def main() -> None:
-    db = Prisma(auto_register=True)
-    await db.connect()
     
     filenames = get_recipe_filenames()
     
     recipes = create_recipes(filenames)
     
-    write_to_json(recipes)
+    recipes_objs = write_to_json(recipes)
     
-    await write_to_db(db, recipes)
+    await write_to_db(recipes_objs)
     
     
 
