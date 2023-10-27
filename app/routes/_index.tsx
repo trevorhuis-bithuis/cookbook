@@ -35,17 +35,12 @@ function Card({ title, description, image, url }: any) {
 
 export default function Index() {
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-      <p className="m-6 text-center text-2xl">{`Crystal's Cooking`}</p>
+    <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+      <p className="m-6 text-center text-2xl">{`Crystal's Cookbook`}</p>
       <p className="text-md m-6 text-center">
-        Bacon ipsum dolor amet fatback swine cupim capicola tail. Kevin ball tip
-        cupim meatloaf strip steak. Chislic pork chicken meatloaf beef
-        tenderloin shankle tongue cow rump biltong filet mignon. Beef ribs
-        pancetta tenderloin, spare ribs ribeye sausage filet mignon turkey
-        chislic tail brisket salami. Shankle biltong cow, sirloin porchetta
-        pastrami buffalo tail swine bacon.
+        Explore fantastic recipes from world-class chef Crystal Huis in 't Veld.
       </p>
-      <div className="grid grid-cols-2 space-x-12">
+      <div className="grid grid-cols-1 space-x-6">
         <Card
           title={"Recipes"}
           description={"Your favorite recipes"}
