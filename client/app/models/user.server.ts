@@ -5,6 +5,7 @@ import { prisma } from "~/db.server";
 
 export type { User } from "@prisma/client";
 
+// Comment to trigger workflow
 export async function getUserById(id: User["id"]) {
   return prisma.user.findUnique({ where: { id } });
 }
