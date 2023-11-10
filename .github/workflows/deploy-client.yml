@@ -76,6 +76,7 @@ jobs:
 
       - name: 📥 Install deps
         run: npm install
+        working-directory: ./client
 
       - name: ⚡ Run vitest
         run: npm run test -- --coverage
