@@ -58,6 +58,7 @@ jobs:
 
       - name: 🔎 Type check
         run: npm run typecheck --if-present
+        working-directory: ./client
 
   vitest:
     name: ⚡ Vitest
