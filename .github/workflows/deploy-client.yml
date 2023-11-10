@@ -58,6 +58,7 @@ jobs:
 
       - name: 🔎 Type check
         run: npm run typecheck --if-present
+        working-directory: ./client
 
   vitest:
     name: ⚡ Vitest
@@ -75,6 +76,7 @@ jobs:
 
       - name: 📥 Install deps
         run: npm install
+        working-directory: ./client
 
       - name: ⚡ Run vitest
         run: npm run test -- --coverage
