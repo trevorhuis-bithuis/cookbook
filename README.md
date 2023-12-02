@@ -27,21 +27,6 @@
   npm run dev
   ```
 
-This starts your app in development mode, rebuilding assets on file changes.
-
-The database seed script creates a new user with some data you can use to get started:
-
-- Email: `rachel@remix.run`
-- Password: `racheliscool`
-
-### Relevant code:
-
-This is a pretty simple note-taking app, but it's a good example of how you can build a full stack app with Prisma and Remix. The main functionality is creating users, logging in and out, and creating and deleting notes.
-
-- creating users, and logging in and out [./app/models/user.server.ts](./app/models/user.server.ts)
-- user sessions, and verifying them [./app/session.server.ts](./app/session.server.ts)
-- creating, and deleting notes [./app/models/note.server.ts](./app/models/note.server.ts)
-
 ## Deployment
 
 This Remix Stack comes with two GitHub Actions that handle automatically deploying your app to production and staging environments.
@@ -98,10 +83,6 @@ Prior to your first deployment, you'll need to do a few things:
   ```
 
 Now that everything is set up you can commit and push your changes to your repo. Every commit to your `main` branch will trigger a deployment to your production environment, and every commit to your `dev` branch will trigger a deployment to your staging environment.
-
-### Connecting to your database
-
-The sqlite database lives at `/data/sqlite.db` in your deployed application. You can connect to the live database by running `fly ssh console -C database-cli`.
 
 ### Getting Help with Deployment
 
