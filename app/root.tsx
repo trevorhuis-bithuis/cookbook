@@ -31,7 +31,7 @@ export default function App() {
     isAuthenticated = false;
 
   if (user) {
-    isOwner = user.isOwner === true;
+    isOwner = user.userType === "owner";
     isAuthenticated = true;
   }
 

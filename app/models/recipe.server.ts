@@ -1,6 +1,6 @@
 import axios from "axios";
 import dayjs from "dayjs";
-import { buildMongoConfig } from "~/utils";
+import { buildMongoConfig, Collection } from "~/utils";
 
 type Recipe = {
   id: string;
@@ -13,6 +13,8 @@ type Recipe = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+const collection = Collection.recipe;
 
 const createRecipe = async (
   title: string,
@@ -34,7 +36,7 @@ const createRecipe = async (
     updatedAt: dayjs().format(),
   };
 
-  const config = buildMongoConfig({ action, document });
+  const config = buildMongoConfig({ collection, action, document });
   const result = await axios(config);
 
   return result.data.insertedId;
@@ -64,7 +66,7 @@ const updateRecipe = async (
     },
   };
 
-  const config = buildMongoConfig({ action, filter, update });
+  const config = buildMongoConfig({ collection, action, filter, update });
   const result = await axios(config);
 
   return result.data.modifiedCount;
@@ -76,7 +78,7 @@ const getRecipe = async (id: string) => {
     _id: { $oid: id },
   };
 
-  const config = buildMongoConfig({ action, filter });
+  const config = buildMongoConfig({ collection, action, filter });
   const result = await axios(config);
 
   return {
@@ -91,7 +93,7 @@ const deleteRecipe = async (id: string) => {
     _id: { $oid: id },
   };
 
-  const config = buildMongoConfig({ action, filter });
+  const config = buildMongoConfig({ collection, action, filter });
   const result = await axios(config);
 
   return result.data.deletedCount;
@@ -101,7 +103,7 @@ const getRecipes = async (skip: number) => {
   const action = "find";
   const sort = { title: 1, _id: 1 };
 
-  const config = buildMongoConfig({ action, sort, skip, limit: 8 });
+  const config = buildMongoConfig({ collection, action, sort, skip, limit: 8 });
   const result = await axios(config);
 
   return result.data.documents;
@@ -114,7 +116,7 @@ const getRecipeCount = async () => {
       $count: "recipeCount",
     },
   ];
-  const config = buildMongoConfig({ action, pipeline });
+  const config = buildMongoConfig({ collection, action, pipeline });
   const result = await axios(config);
 
   return result.data.documents[0].recipeCount;
@@ -130,7 +132,7 @@ const getCategories = async () => {
       },
     },
   ];
-  const config = buildMongoConfig({ action, pipeline });
+  const config = buildMongoConfig({ collection, action, pipeline });
   const result = await axios(config);
 
   return result.data.documents[0].categories[0];
@@ -157,7 +159,7 @@ const searchRecipes = async (search: string) => {
     },
   ];
 
-  const config = buildMongoConfig({ action, pipeline });
+  const config = buildMongoConfig({ collection, action, pipeline });
   const result = await axios(config);
 
   return result.data.documents;

@@ -70,7 +70,26 @@ export function validateEmail(email: unknown): email is string {
   return typeof email === "string" && email.length > 3 && email.includes("@");
 }
 
+export enum Collection {
+  recipe = "Recipe",
+  user = "User",
+}
+
+type MongoRequestConfig = {
+  collection: Collection;
+  action: string;
+  document?: object | null;
+  update?: object | null;
+  filter?: object | null;
+  projection?: string | null;
+  sort?: object | null;
+  limit?: number | null;
+  skip?: number | null;
+  pipeline?: object | null;
+};
+
 export function buildMongoConfig({
+  collection,
   action,
   document = null,
   update = null,
@@ -80,7 +99,7 @@ export function buildMongoConfig({
   limit = null,
   skip = null,
   pipeline = null,
-}: any) {
+}: MongoRequestConfig) {
   let config: any = {
     method: "post",
     url: `${process.env.DATA_API_BASE_URL}/action/${action}`,
@@ -92,7 +111,7 @@ export function buildMongoConfig({
     data: {
       dataSource: "cookbook",
       database: "cookbook",
-      collection: "Recipe",
+      collection,
     },
   };
 

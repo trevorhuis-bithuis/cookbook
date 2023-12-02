@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - client/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -27,16 +25,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           cache: npm
-          cache-dependency-path: ./client/package.json
+          cache-dependency-path: ./package.json
           node-version: 18
 
       - name: 📥 Install deps
         run: npm install
-        working-directory: ./client
 
       - name: 🔬 Lint
         run: npm run lint
-        working-directory: ./client
 
   typecheck:
     name: ʦ TypeScript
@@ -49,16 +45,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           cache: npm
-          cache-dependency-path: ./client/package.json
+          cache-dependency-path: ./package.json
           node-version: 18
 
       - name: 📥 Install deps
         run: npm install
-        working-directory: ./client
 
       - name: 🔎 Type check
         run: npm run typecheck --if-present
-        working-directory: ./client
 
   vitest:
     name: ⚡ Vitest
@@ -71,16 +65,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           cache: npm
-          cache-dependency-path: ./client/package.json
+          cache-dependency-path: ./package.json
           node-version: 18
 
       - name: 📥 Install deps
         run: npm install
-        working-directory: ./client
 
       - name: ⚡ Run vitest
         run: npm run test -- --coverage
-        working-directory: ./client
 
   deploy:
     name: 🚀 Deploy
@@ -97,13 +89,13 @@ jobs:
         uses: SebRollen/toml-action@v1.0.2
         id: app_name
         with:
-          file: client/fly.toml
+          file: fly.toml
           field: app
 
       - name: 🚀 Deploy Production
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: superfly/flyctl-actions@1.4
         with:
-          args: deploy ./client --remote-only --build-arg COMMIT_SHA=${{ github.sha }} --app ${{ steps.app_name.outputs.value }}
+          args: deploy --remote-only --build-arg COMMIT_SHA=${{ github.sha }} --app ${{ steps.app_name.outputs.value }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
