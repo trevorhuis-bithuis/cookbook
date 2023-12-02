@@ -9,6 +9,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
 
 import { getUser } from "~/session.server";
@@ -24,6 +25,24 @@ export const links: LinksFunction = () => [
 export const loader = async ({ request }: LoaderArgs) => {
   return json({ user: await getUser(request) });
 };
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  console.error(error);
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        Something broke :/
+        <Scripts />
+      </body>
+    </html>
+  );
+}
 
 export default function App() {
   const user = useLoaderData().user;
